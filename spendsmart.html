@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendSmart - Smart Budget Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .container {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            font-size: 24px;
+        }
+        
+        .search-bar {
+            flex: 1;
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 14px;
+        }
+        
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Setup Screen Styles */
+        .setup-screen {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .setup-screen.active {
+            display: block;
+        }
+        
+        .setup-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #182848;
+            text-align: center;
+        }
+        
+        .setup-subtitle {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radio-option.selected {
+            border-color: #4b6cb7;
+            background-color: rgba(75, 108, 183, 0.05);
+        }
+        
+        .radio-option i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4b6cb7;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(75, 108, 183, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 14px;
+            width: auto;
+            display: inline-block;
+        }
+        
+        /* Main Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .budget-header {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .budget-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .budget-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #182848;
+            margin-bottom: 15px;
+        }
+        
+        .progress-container {
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            border-radius: 6px;
+            width: 0%; /* Start at 0% */
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-category-marker {
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            top: 0;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .progress-percentage {
+            font-weight: 600;
+            color: #4b6cb7;
+        }
+        
+        .order-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .status-item:hover {
+            color: #4b6cb7;
+        }
+        
+        .status-item i {
+            font-size: 18px;
+            background-color: #f0f2f5;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+        
+        .status-item.active {
+            color: #4b6cb7;
+        }
+        
+        .status-item.active i {
+            background-color: rgba(75, 108, 183, 0.1);
+            color: #4b6cb7;
+        }
+        
+        .category-breakdown {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .category-breakdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .category-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .categories-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #182848;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .see-all {
+            font-size: 14px;
+            color: #4b6cb7;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .category-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-item i {
+            font-size: 24px;
+            color: #4b6cb7;
+            margin-bottom: 8px;
+        }
+        
+        .category-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .category-spent {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .for-you-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .for-you-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .for-you-item {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #e9ecef;
+            position: relative;
+        }
+        
+        .for-you-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 100px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 40px;
+            overflow: hidden;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-name {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #182848;
+        }
+        
+        .item-alternative {
+            font-size: 12px;
+            color: #28a745;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .alternative-tag {
+            background-color: #28a745;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #182848;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .modal-text {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+        }
+        
+        .warning {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .alternative-products {
+            margin-top: 20px;
+        }
+        
+        .alternative-product {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .alternative-product:hover {
+            border-color: #4b6cb7;
+            background-color: rgba(75, 108, 183, 0.05);
+        }
+        
+        .alternative-product.selected {
+            border-color: #28a745;
+            background-color: rgba(40, 167, 69, 0.05);
+        }
+        
+        .alternative-image {
+            width: 60px;
+            height: 60px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 24px;
+        }
+        
+        .alternative-details {
+            flex: 1;
+        }
+        
+        .alternative-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .alternative-price {
+            font-weight: 700;
+            color: #28a745;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #dc3545;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001;
+            display: none;
+        }
+        
+        .notification.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification i {
+            font-size: 20px;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active {
+            color: #4b6cb7;
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .nav-item span {
+            font-size: 12px;
+        }
+        
+        .nav-item:hover {
+            color: #4b6cb7;
+        }
+        
+        .expense-form {
+            display: none;
+        }
+        
+        .expense-form.active {
+            display: block;
+        }
+        
+        .orders-screen {
+            display: none;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .orders-screen.active {
+            display: block;
+        }
+        
+        .order-list {
+            margin-top: 15px;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-to-pay {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-to-ship {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-to-receive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-rated {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .order-details {
+            flex: 1;
+        }
+        
+        .order-product {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .order-price {
+            font-weight: 600;
+            color: #182848;
+        }
+        
+        .order-date {
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <h1>SpendSmart</h1>
+        </div>
+        
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search products or categories...">
+        </div>
+        
+        <div class="user-profile" id="userProfile">
+            <i class="fas fa-user"></i>
+        </div>
+    </header>
+    
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Setup Screen -->
+        <div class="setup-screen active" id="setupScreen">
+            <h2 class="setup-title">Welcome to SpendSmart</h2>
+            <p class="setup-subtitle">Let's set up your profile and budget to get started</p>
+            
+            <div class="form-group">
+                <label for="userName">Full Name</label>
+                <input type="text" id="userName" class="form-control" placeholder="Enter your name">
+            </div>
+            
+            <div class="form-group">
+                <label for="userAge">Age</label>
+                <input type="number" id="userAge" class="form-control" placeholder="Enter your age">
+            </div>
+            
+            <div class="form-group">
+                <label for="userBirthday">Birthday</label>
+                <input type="date" id="userBirthday" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="userJob">Occupation</label>
+                <input type="text" id="userJob" class="form-control" placeholder="Enter your occupation">
+            </div>
+            
+            <div class="form-group">
+                <label for="userIncome">Monthly Income (₱)</label>
+                <input type="number" id="userIncome" class="form-control" placeholder="Enter your monthly income">
+            </div>
+            
+            <div class="form-group">
+                <label>Spending Limit Option</label>
+                <div class="radio-group">
+                    <div class="radio-option" id="manualOption">
+                        <i class="fas fa-edit"></i>
+                        <div>Set Manually</div>
+                    </div>
+                    <div class="radio-option selected" id="autoOption">
+                        <i class="fas fa-robot"></i>
+                        <div>Auto Recommend</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" id="manualLimitContainer" style="display: none;">
+                <label for="manualLimit">Monthly Spending Limit (₱)</label>
+                <input type="number" id="manualLimit" class="form-control" placeholder="Enter your spending limit">
+            </div>
+            
+            <button class="btn" id="completeSetup">Complete Setup</button>
+        </div>
+        
+        <!-- Main Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <!-- Budget Summary -->
+            <div class="budget-header">
+                <div class="budget-title">Monthly Spending Limit</div>
+                <div class="budget-amount" id="budgetAmount">₱25,000</div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">
+                            <!-- Category markers will be added here dynamically -->
+                        </div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="spentAmount">₱0 of ₱25,000 spent</span>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                </div>
+                
+                <!-- Category breakdown in progress bar -->
+                <div class="category-breakdown" id="categoryBreakdown">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <!-- Order Status Icons -->
+                <div class="order-status">
+                    <div class="status-item active" id="statusAll">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>All</span>
+                    </div>
+                    <div class="status-item" id="statusToPay">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>To Pay</span>
+                    </div>
+                    <div class="status-item" id="statusToShip">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>To Ship</span>
+                    </div>
+                    <div class="status-item" id="statusToReceive">
+                        <i class="fas fa-truck-loading"></i>
+                        <span>To Receive</span>
+                    </div>
+                    <div class="status-item" id="statusRate">
+                        <i class="fas fa-star"></i>
+                        <span>Rate</span>
+                    </div>
+                    <div class="status-item" id="statusCancelled">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Cancelled</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Categories Section -->
+            <div class="categories-section">
+                <div class="section-title">
+                    <span>Spending Categories</span>
+                    <span class="see-all" id="seeAllCategories">See All</span>
+                </div>
+                
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- "For You" Section -->
+            <div class="for-you-section">
+                <div class="section-title">
+                    <span>For You</span>
+                    <span class="see-all" id="seeAllForYou">See All</span>
+                </div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Based on your preferences and spending behavior</p>
+                
+                <div class="for-you-items" id="forYouItems">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Expense Form -->
+        <div class="setup-screen expense-form" id="expenseForm">
+            <h2 class="setup-title">Add Expense</h2>
+            <p class="setup-subtitle">Record your purchase to track spending</p>
+            
+            <div class="form-group">
+                <label for="expenseCategory">Category</label>
+                <select id="expenseCategory" class="form-control">
+                    <option value="food">Food & Drinks</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="transport">Transportation</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="expenseAmount">Amount (₱)</label>
+                <input type="number" id="expenseAmount" class="form-control" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label for="expenseDescription">Description</label>
+                <input type="text" id="expenseDescription" class="form-control" placeholder="Enter description (optional)">
+            </div>
+            
+            <button class="btn" id="addExpense">Add Expense</button>
+            <button class="btn btn-secondary" id="cancelExpense">Cancel</button>
+        </div>
+        
+        <!-- Orders Screen -->
+        <div class="orders-screen" id="ordersScreen">
+            <h2 class="setup-title">Your Orders</h2>
+            <p class="setup-subtitle" id="ordersSubtitle">All your purchases and their status</p>
+            
+            <div class="order-list" id="orderList">
+                <!-- Orders will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="navHome">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" id="navAdd">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add</span>
+        </div>
+        <div class="nav-item" id="navOrders">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Orders</span>
+        </div>
+        <div class="nav-item" id="navSettings">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </div>
+    </div>
+    
+    <!-- Purchase Confirmation Modal -->
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal">
+            <h3 class="modal-title">Think Before You Buy</h3>
+            <p class="modal-text" id="modalQuestion">Do you really need this item?</p>
+            
+            <div class="alternative-products" id="alternativeProducts">
+                <!-- Alternative products will be added here -->
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelPurchase">Cancel Purchase</button>
+                <button class="btn" id="confirmPurchase">Proceed Anyway</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Alternative Products Modal -->
+    <div class="modal-overlay" id="alternativeModal">
+        <div class="modal">
+            <h3 class="modal-title">Budget-Friendly Alternatives</h3>
+            <p class="modal-text">We found similar items at lower prices</p>
+            
+            <div class="alternative-products" id="allAlternatives">
+                <!-- All alternative products will be added here -->
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn" id="selectAlternative">Select Alternative</button>
+                <button class="btn btn-secondary" id="closeAlternativeModal">Back to Original</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Budget Warning Modal -->
+    <div class="modal-overlay" id="warningModal">
+        <div class="modal">
+            <h3 class="modal-title">Budget Warning!</h3>
+            <p class="modal-text warning">You have exceeded your monthly spending limit!</p>
+            <p class="modal-text">Continuing to overspend may reduce your savings and negatively affect your financial goals.</p>
+            
+            <div class="modal-actions">
+                <button class="btn" id="acknowledgeWarning">I Understand</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="warningNotification">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>You've exceeded your monthly budget!</div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const setupScreen = document.getElementById('setupScreen');
+        const dashboard = document.getElementById('dashboard');
+        const expenseForm = document.getElementById('expenseForm');
+        const ordersScreen = document.getElementById('ordersScreen');
+        const manualOption = document.getElementById('manualOption');
+        const autoOption = document.getElementById('autoOption');
+        const manualLimitContainer = document.getElementById('manualLimitContainer');
+        const completeSetupBtn = document.getElementById('completeSetup');
+        const userProfile = document.getElementById('userProfile');
+        const searchInput = document.getElementById('searchInput');
+        const categoriesGrid = document.getElementById('categoriesGrid');
+        const forYouItems = document.getElementById('forYouItems');
+        const budgetAmount = document.getElementById('budgetAmount');
+        const spentAmount = document.getElementById('spentAmount');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercentage = document.getElementById('progressPercentage');
+        const categoryBreakdown = document.getElementById('categoryBreakdown');
+        const purchaseModal = document.getElementById('purchaseModal');
+        const alternativeModal = document.getElementById('alternativeModal');
+        const warningModal = document.getElementById('warningModal');
+        const warningNotification = document.getElementById('warningNotification');
+        const navHome = document.getElementById('navHome');
+        const navAdd = document.getElementById('navAdd');
+        const navOrders = document.getElementById('navOrders');
+        const navSettings = document.getElementById('navSettings');
+        const addExpenseBtn = document.getElementById('addExpense');
+        const cancelExpenseBtn = document.getElementById('cancelExpense');
+        const expenseCategory = document.getElementById('expenseCategory');
+        const expenseAmount = document.getElementById('expenseAmount');
+        const cancelPurchaseBtn = document.getElementById('cancelPurchase');
+        const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+        const selectAlternativeBtn = document.getElementById('selectAlternative');
+        const closeAlternativeModalBtn = document.getElementById('closeAlternativeModal');
+        const acknowledgeWarningBtn = document.getElementById('acknowledgeWarning');
+        const seeAllCategories = document.getElementById('seeAllCategories');
+        const seeAllForYou = document.getElementById('seeAllForYou');
+        const statusAll = document.getElementById('statusAll');
+        const statusToPay = document.getElementById('statusToPay');
+        const statusToShip = document.getElementById('statusToShip');
+        const statusToReceive = document.getElementById('statusToReceive');
+        const statusRate = document.getElementById('statusRate');
+        const statusCancelled = document.getElementById('statusCancelled');
+        const orderList = document.getElementById('orderList');
+        const ordersSubtitle = document.getElementById('ordersSubtitle');
+        const alternativeProducts = document.getElementById('alternativeProducts');
+        const allAlternatives = document.getElementById('allAlternatives');
+        
+        // App State
+        const appState = {
+            user: {},
+            budget: 25000,
+            spent: 0, // Start with 0 spent
+            categories: [
+                { id: 'food', name: 'Food Drinks', icon: 'fa-utensils', spent: 0, color: '#4b6cb7' },
+                { id: 'clothes', name: 'Clothes', icon: 'fa-tshirt', spent: 0, color: '#28a745' },
+                { id: 'shoes', name: 'Shoes', icon: 'fa-shoe-prints', spent: 0, color: '#dc3545' },
+                { id: 'electronics', name: 'Appliances Devices', icon: 'fa-laptop', spent: 0, color: '#ffc107' },
+                { id: 'transport', name: 'Car Supplies', icon: 'fa-car', spent: 0, color: '#17a2b8' },
+                { id: 'entertainment', name: 'Toys', icon: 'fa-gamepad', spent: 0, color: '#6f42c1' },
+                { id: 'tools', name: 'Tools', icon: 'fa-tools', spent: 0, color: '#fd7e14' },
+                { id: 'bags', name: 'Bags', icon: 'fa-briefcase', spent: 0, color: '#e83e8c' }
+            ],
+            forYouItems: [
+                { id: 1, name: 'iPhone 17 Pro Max', price: 89999, alternatives: [
+                    { id: 101, name: 'iPhone 16 Pro Max', price: 79999, savings: 10000 },
+                    { id: 102, name: 'Samsung Galaxy S24 Ultra', price: 74999, savings: 15000 },
+                    { id: 103, name: 'Google Pixel 8 Pro', price: 69999, savings: 20000 }
+                ], icon: 'fa-mobile-alt', category: 'electronics', hasAlternative: true },
+                { id: 2, name: 'Designer Handbag', price: 12500, alternatives: [
+                    { id: 201, name: 'Similar Leather Bag', price: 7500, savings: 5000 },
+                    { id: 202, name: 'Canvas Tote Bag', price: 3500, savings: 9000 }
+                ], icon: 'fa-shopping-bag', category: 'bags', hasAlternative: true },
+                { id: 3, name: 'Running Shoes', price: 4500, alternatives: [
+                    { id: 301, name: 'Previous Model', price: 3200, savings: 1300 },
+                    { id: 302, name: 'Alternative Brand', price: 2800, savings: 1700 }
+                ], icon: 'fa-running', category: 'shoes', hasAlternative: true },
+                { id: 4, name: 'Bluetooth Speaker', price: 3500, alternatives: [
+                    { id: 401, name: 'Smaller Version', price: 2200, savings: 1300 },
+                    { id: 402, name: 'Wired Speaker', price: 1500, savings: 2000 }
+                ], icon: 'fa-volume-up', category: 'electronics', hasAlternative: true }
+            ],
+            orders: [
+                { id: 1, product: 'Nike Running Shoes', price: 4500, date: '2023-10-15', status: 'rated' },
+                { id: 2, product: 'Winter Jacket', price: 3200, date: '2023-10-10', status: 'to-receive' },
+                { id: 3, product: 'Wireless Earbuds', price: 2800, date: '2023-10-05', status: 'to-ship' },
+                { id: 4, product: 'Coffee Maker', price: 5200, date: '2023-09-28', status: 'to-pay' },
+                { id: 5, product: 'Gaming Mouse', price: 1800, date: '2023-09-20', status: 'cancelled' }
+            ],
+            selectedItem: null,
+            selectedAlternative: null,
+            currentOrderFilter: 'all',
+            isBudgetExceeded: false
+        };
+        
+        // Initialize the app
+        function initApp() {
+            updateBudgetDisplay();
+            renderCategories();
+            renderForYouItems();
+            setupEventListeners();
+            updateOrderDisplay();
+        }
+        
+        // Update budget display
+        function updateBudgetDisplay() {
+            const percentage = appState.budget > 0 ? (appState.spent / appState.budget) * 100 : 0;
+            
+            budgetAmount.textContent = `₱${appState.budget.toLocaleString()}`;
+            spentAmount.textContent = `₱${appState.spent.toLocaleString()} of ₱${appState.budget.toLocaleString()} spent`;
+            progressFill.style.width = `${percentage}%`;
+            progressPercentage.textContent = `${percentage.toFixed(0)}%`;
+            
+            // Update category breakdown in progress bar
+            updateCategoryBreakdown();
+            
+            // Check if budget is exceeded
+            if (appState.spent > appState.budget && !appState.isBudgetExceeded) {
+                appState.isBudgetExceeded = true;
+                showBudgetWarning();
+            }
+        }
+        
+        // Update category breakdown in progress bar
+        function updateCategoryBreakdown() {
+            // Clear previous markers
+            progressFill.innerHTML = '';
+            categoryBreakdown.innerHTML = '';
+            
+            let cumulativePercentage = 0;
+            
+            appState.categories.forEach(category => {
+                if (category.spent > 0) {
+                    const categoryPercentage = (category.spent / appState.budget) * 100;
+                    
+                    // Add marker to progress bar
+                    const marker = document.createElement('div');
+                    marker.className = 'progress-category-marker';
+                    marker.style.left = `${cumulativePercentage}%`;
+                    marker.style.backgroundColor = category.color;
+                    progressFill.appendChild(marker);
+                    
+                    // Add to category breakdown
+                    const breakdownItem = document.createElement('div');
+                    breakdownItem.className = 'category-breakdown-item';
+                    breakdownItem.innerHTML = `
+                        <div class="category-color" style="background-color: ${category.color}"></div>
+                        <span>${category.name}: ₱${category.spent.toLocaleString()}</span>
+                    `;
+                    categoryBreakdown.appendChild(breakdownItem);
+                    
+                    cumulativePercentage += categoryPercentage;
+                }
+            });
+        }
+        
+        // Render categories
+        function renderCategories() {
+            categoriesGrid.innerHTML = '';
+            
+            appState.categories.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category-item';
+                categoryElement.dataset.category = category.id;
+                
+                // Calculate percentage for this category
+                const categoryPercentage = category.spent > 0 ? (category.spent / appState.budget * 100).toFixed(1) : 0;
+                
+                categoryElement.innerHTML = `
+                    <i class="fas ${category.icon}"></i>
+                    <div class="category-name">${category.name}</div>
+                    <div class="category-spent">₱${category.spent.toLocaleString()}</div>
+                `;
+                
+                categoriesGrid.appendChild(categoryElement);
+            });
+        }
+        
+        // Render "For You" items
+        function renderForYouItems() {
+            forYouItems.innerHTML = '';
+            
+            appState.forYouItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'for-you-item';
+                itemElement.dataset.itemId = item.id;
+                
+                // Find the cheapest alternative
+                const cheapestAlt = item.alternatives.reduce((min, alt) => alt.price < min.price ? alt : min, item.alternatives[0]);
+                const savings = item.price - cheapestAlt.price;
+                
+                itemElement.innerHTML = `
+                    <div class="item-image">
+                        <i class="fas ${item.icon}"></i>
+                    </div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">₱${item.price.toLocaleString()}</div>
+                    ${item.hasAlternative ? `
+                        <div class="item-alternative" data-item-id="${item.id}">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Save ₱${savings.toLocaleString()} with alternative
+                            <span class="alternative-tag">Cheaper</span>
+                        </div>
+                    ` : ''}
+                `;
+                
+                forYouItems.appendChild(itemElement);
+            });
+        }
+        
+        // Update order display
+        function updateOrderDisplay() {
+            orderList.innerHTML = '';
+            
+            // Filter orders based on current filter
+            let filteredOrders = appState.orders;
+            let statusText = 'All your purchases and their status';
+            
+            if (appState.currentOrderFilter === 'to-pay') {
+                filteredOrders = appState.orders.filter(order => order.status === 'to-pay');
+                statusText = 'Orders waiting for payment';
+            } else if (appState.currentOrderFilter === 'to-ship') {
+                filteredOrders = appState.orders.filter(order => order.status === 'to-ship');
+                statusText = 'Orders waiting to be shipped';
+            } else if (appState.currentOrderFilter === 'to-receive') {
+                filteredOrders = appState.orders.filter(order => order.status === 'to-receive');
+                statusText = 'Orders in transit';
+            } else if (appState.currentOrderFilter === 'rated') {
+                filteredOrders = appState.orders.filter(order => order.status === 'rated');
+                statusText = 'Orders you have rated';
+            } else if (appState.currentOrderFilter === 'cancelled') {
+                filteredOrders = appState.orders.filter(order => order.status === 'cancelled');
+                statusText = 'Cancelled orders';
+            }
+            
+            ordersSubtitle.textContent = statusText;
+            
+            if (filteredOrders.length === 0) {
+                orderList.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No orders found in this category.</p>';
+                return;
+            }
+            
+            filteredOrders.forEach(order => {
+                const orderElement = document.createElement('div');
+                orderElement.className = 'order-item';
+                
+                // Status badge
+                let statusClass = '';
+                let statusText = '';
+                
+                switch(order.status) {
+                    case 'to-pay':
+                        statusClass = 'status-to-pay';
+                        statusText = 'To Pay';
+                        break;
+                    case 'to-ship':
+                        statusClass = 'status-to-ship';
+                        statusText = 'To Ship';
+                        break;
+                    case 'to-receive':
+                        statusClass = 'status-to-receive';
+                        statusText = 'To Receive';
+                        break;
+                    case 'rated':
+                        statusClass = 'status-rated';
+                        statusText = 'Rated';
+                        break;
+                    case 'cancelled':
+                        statusClass = 'status-cancelled';
+                        statusText = 'Cancelled';
+                        break;
+                }
+                
+                orderElement.innerHTML = `
+                    <div class="order-status-badge ${statusClass}">${statusText}</div>
+                    <div class="order-details">
+                        <div class="order-product">${order.product}</div>
+                        <div class="order-price">₱${order.price.toLocaleString()}</div>
+                        <div class="order-date">${order.date}</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: #999;"></i>
+                `;
+                
+                orderList.appendChild(orderElement);
+            });
+        }
+        
+        // Show purchase modal with alternatives
+        function showPurchaseModal(item) {
+            appState.selectedItem = item;
+            appState.selectedAlternative = null;
+            
+            const modalQuestion = document.getElementById('modalQuestion');
+            
+            // Random reflective questions
+            const questions = [
+                "Do you really need this item?",
+                "Is this important to you?",
+                "Will this purchase bring you long-term happiness?",
+                "Could this money be better used elsewhere?"
+            ];
+            
+            modalQuestion.textContent = questions[Math.floor(Math.random() * questions.length)];
+            
+            // Show alternative products
+            alternativeProducts.innerHTML = '';
+            
+            // Add "view all alternatives" option
+            const viewAllOption = document.createElement('div');
+            viewAllOption.className = 'alternative-product';
+            viewAllOption.innerHTML = `
+                <div class="alternative-image">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="alternative-details">
+                    <div class="alternative-name">View All Alternatives</div>
+                    <div class="alternative-price">See all ${item.alternatives.length} budget-friendly options</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            `;
+            viewAllOption.addEventListener('click', () => {
+                purchaseModal.classList.remove('active');
+                showAlternativeModal(item);
+            });
+            alternativeProducts.appendChild(viewAllOption);
+            
+            // Show top 2 alternatives
+            item.alternatives.slice(0, 2).forEach(alternative => {
+                const alternativeElement = document.createElement('div');
+                alternativeElement.className = 'alternative-product';
+                alternativeElement.dataset.altId = alternative.id;
+                
+                alternativeElement.innerHTML = `
+                    <div class="alternative-image">
+                        <i class="fas ${item.icon}"></i>
+                    </div>
+                    <div class="alternative-details">
+                        <div class="alternative-name">${alternative.name}</div>
+                        <div class="alternative-price">₱${alternative.price.toLocaleString()}
+                            <span class="original-price">₱${item.price.toLocaleString()}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #28a745;">Save ₱${alternative.savings.toLocaleString()}</div>
+                    </div>
+                `;
+                
+                alternativeElement.addEventListener('click', () => {
+                    // Remove selection from all alternatives
+                    document.querySelectorAll('.alternative-product').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Select this alternative
+                    alternativeElement.classList.add('selected');
+                    appState.selectedAlternative = alternative;
+                });
+                
+                alternativeProducts.appendChild(alternativeElement);
+            });
+            
+            purchaseModal.classList.add('active');
+        }
+        
+        // Show all alternatives modal
+        function showAlternativeModal(item) {
+            allAlternatives.innerHTML = '';
+            
+            item.alternatives.forEach(alternative => {
+                const alternativeElement = document.createElement('div');
+                alternativeElement.className = 'alternative-product';
+                alternativeElement.dataset.altId = alternative.id;
+                
+                alternativeElement.innerHTML = `
+                    <div class="alternative-image">
+                        <i class="fas ${item.icon}"></i>
+                    </div>
+                    <div class="alternative-details">
+                        <div class="alternative-name">${alternative.name}</div>
+                        <div class="alternative-price">₱${alternative.price.toLocaleString()}
+                            <span class="original-price">₱${item.price.toLocaleString()}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #28a745;">Save ₱${alternative.savings.toLocaleString()}</div>
+                    </div>
+                `;
+                
+                alternativeElement.addEventListener('click', () => {
+                    // Remove selection from all alternatives
+                    document.querySelectorAll('.alternative-product').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Select this alternative
+                    alternativeElement.classList.add('selected');
+                    appState.selectedAlternative = alternative;
+                });
+                
+                allAlternatives.appendChild(alternativeElement);
+            });
+            
+            alternativeModal.classList.add('active');
+        }
+        
+        // Show budget warning
+        function showBudgetWarning() {
+            warningModal.classList.add('active');
+            warningNotification.classList.add('show');
+            
+            // Auto hide notification after 5 seconds
+            setTimeout(() => {
+                warningNotification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Add expense
+        function addExpense(category, amount, description) {
+            // Find category and update spent amount
+            const categoryObj = appState.categories.find(cat => cat.id === category);
+            if (categoryObj) {
+                categoryObj.spent += amount;
+                appState.spent += amount;
+                
+                updateBudgetDisplay();
+                renderCategories();
+                
+                // Show success message
+                alert(`Expense of ₱${amount.toLocaleString()} added to ${categoryObj.name}`);
+            }
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Setup screen options
+            manualOption.addEventListener('click', () => {
+                manualOption.classList.add('selected');
+                autoOption.classList.remove('selected');
+                manualLimitContainer.style.display = 'block';
+            });
+            
+            autoOption.addEventListener('click', () => {
+                autoOption.classList.add('selected');
+                manualOption.classList.remove('selected');
+                manualLimitContainer.style.display = 'none';
+            });
+            
+            // Complete setup
+            completeSetupBtn.addEventListener('click', () => {
+                const userName = document.getElementById('userName').value;
+                const userAge = document.getElementById('userAge').value;
+                const userIncome = document.getElementById('userIncome').value;
+                
+                if (!userName || !userAge || !userIncome) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Set user data
+                appState.user = {
+                    name: userName,
+                    age: userAge,
+                    birthday: document.getElementById('userBirthday').value,
+                    job: document.getElementById('userJob').value,
+                    income: userIncome
+                };
+                
+                // Set budget based on option
+                if (manualOption.classList.contains('selected')) {
+                    const manualLimit = document.getElementById('manualLimit').value;
+                    if (manualLimit) {
+                        appState.budget = parseInt(manualLimit);
+                    }
+                } else {
+                    // Auto-calculate budget (70% of income as an example)
+                    appState.budget = Math.round(parseInt(userIncome) * 0.7);
+                }
+                
+                // Start with 0 spent (fixed issue #2)
+                appState.spent = 0;
+                
+                // Reset all category spending to 0
+                appState.categories.forEach(category => {
+                    category.spent = 0;
+                });
+                
+                // Update UI
+                setupScreen.classList.remove('active');
+                dashboard.classList.add('active');
+                updateBudgetDisplay();
+                
+                // Update user profile with initial
+                if (userName) {
+                    userProfile.innerHTML = `<span>${userName.charAt(0).toUpperCase()}</span>`;
+                }
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                if (searchTerm.length > 0) {
+                    // In a real app, this would search products/categories
+                    console.log(`Searching for: ${searchTerm}`);
+                    // You could filter the "For You" items based on search
+                }
+            });
+            
+            // User profile click
+            userProfile.addEventListener('click', () => {
+                alert(`User: ${appState.user.name || 'Not set'}\nAge: ${appState.user.age || 'Not set'}\nIncome: ₱${appState.user.income || 'Not set'}\nBudget: ₱${appState.budget.toLocaleString()}\nSpent: ₱${appState.spent.toLocaleString()}`);
+            });
+            
+            // Category clicks
+            categoriesGrid.addEventListener('click', (e) => {
+                const categoryItem = e.target.closest('.category-item');
+                if (categoryItem) {
+                    const categoryId = categoryItem.dataset.category;
+                    const category = appState.categories.find(cat => cat.id === categoryId);
+                    
+                    // Navigate to expense form with category pre-selected
+                    dashboard.classList.remove('active');
+                    expenseForm.classList.add('active');
+                    expenseForm.classList.remove('setup-screen');
+                    expenseCategory.value = categoryId;
+                    
+                    // Update nav
+                    navHome.classList.remove('active');
+                    navAdd.classList.add('active');
+                }
+            });
+            
+            // See All Categories
+            seeAllCategories.addEventListener('click', () => {
+                alert('This would show all categories with detailed spending breakdown');
+            });
+            
+            // See All For You
+            seeAllForYou.addEventListener('click', () => {
+                alert('This would show all personalized recommendations');
+            });
+            
+            // For You item clicks
+            forYouItems.addEventListener('click', (e) => {
+                const itemElement = e.target.closest('.for-you-item');
+                const alternativeElement = e.target.closest('.item-alternative');
+                
+                if (alternativeElement) {
+                    // Clicked on alternative link
+                    const itemId = parseInt(alternativeElement.dataset.itemId);
+                    const item = appState.forYouItems.find(i => i.id === itemId);
+                    showAlternativeModal(item);
+                } else if (itemElement) {
+                    // Clicked on item
+                    const itemId = parseInt(itemElement.dataset.itemId);
+                    const item = appState.forYouItems.find(i => i.id === itemId);
+                    showPurchaseModal(item);
+                }
+            });
+            
+            // Order status filter clicks
+            statusAll.addEventListener('click', () => {
+                setActiveStatus('all');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'all';
+                    updateOrderDisplay();
+                }
+            });
+            
+            statusToPay.addEventListener('click', () => {
+                setActiveStatus('to-pay');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'to-pay';
+                    updateOrderDisplay();
+                }
+            });
+            
+            statusToShip.addEventListener('click', () => {
+                setActiveStatus('to-ship');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'to-ship';
+                    updateOrderDisplay();
+                }
+            });
+            
+            statusToReceive.addEventListener('click', () => {
+                setActiveStatus('to-receive');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'to-receive';
+                    updateOrderDisplay();
+                }
+            });
+            
+            statusRate.addEventListener('click', () => {
+                setActiveStatus('rated');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'rated';
+                    updateOrderDisplay();
+                }
+            });
+            
+            statusCancelled.addEventListener('click', () => {
+                setActiveStatus('cancelled');
+                if (ordersScreen.classList.contains('active')) {
+                    appState.currentOrderFilter = 'cancelled';
+                    updateOrderDisplay();
+                }
+            });
+            
+            // Set active status
+            function setActiveStatus(status) {
+                [statusAll, statusToPay, statusToShip, statusToReceive, statusRate, statusCancelled].forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                if (status === 'all') statusAll.classList.add('active');
+                if (status === 'to-pay') statusToPay.classList.add('active');
+                if (status === 'to-ship') statusToShip.classList.add('active');
+                if (status === 'to-receive') statusToReceive.classList.add('active');
+                if (status === 'rated') statusRate.classList.add('active');
+                if (status === 'cancelled') statusCancelled.classList.add('active');
+            }
+            
+            // Navigation
+            navHome.addEventListener('click', () => {
+                dashboard.classList.add('active');
+                expenseForm.classList.remove('active');
+                ordersScreen.classList.remove('active');
+                setupScreen.classList.remove('active');
+                
+                navHome.classList.add('active');
+                navAdd.classList.remove('active');
+                navOrders.classList.remove('active');
+                navSettings.classList.remove('active');
+            });
+            
+            navAdd.addEventListener('click', () => {
+                dashboard.classList.remove('active');
+                expenseForm.classList.add('active');
+                ordersScreen.classList.remove('active');
+                setupScreen.classList.remove('active');
+                
+                navHome.classList.remove('active');
+                navAdd.classList.add('active');
+                navOrders.classList.remove('active');
+                navSettings.classList.remove('active');
+            });
+            
+            navOrders.addEventListener('click', () => {
+                dashboard.classList.remove('active');
+                expenseForm.classList.remove('active');
+                ordersScreen.classList.add('active');
+                setupScreen.classList.remove('active');
+                
+                navHome.classList.remove('active');
+                navAdd.classList.remove('active');
+                navOrders.classList.add('active');
+                navSettings.classList.remove('active');
+                
+                // Update order display with current filter
+                updateOrderDisplay();
+            });
+            
+            navSettings.addEventListener('click', () => {
+                alert('Settings page would allow you to adjust preferences');
+                navHome.classList.remove('active');
+                navAdd.classList.remove('active');
+                navOrders.classList.remove('active');
+                navSettings.classList.add('active');
+            });
+            
+            // Expense form
+            addExpenseBtn.addEventListener('click', () => {
+                const category = expenseCategory.value;
+                const amount = parseFloat(expenseAmount.value);
+                const description = expenseDescription.value;
+                
+                if (!category || !amount || amount <= 0) {
+                    alert('Please enter a valid category and amount');
+                    return;
+                }
+                
+                addExpense(category, amount, description);
+                
+                // Reset form and go back to dashboard
+                expenseAmount.value = '';
+                expenseDescription.value = '';
+                
+                dashboard.classList.add('active');
+                expenseForm.classList.remove('active');
+                navHome.classList.add('active');
+                navAdd.classList.remove('active');
+            });
+            
+            cancelExpenseBtn.addEventListener('click', () => {
+                expenseAmount.value = '';
+                expenseDescription.value = '';
+                
+                dashboard.classList.add('active');
+                expenseForm.classList.remove('active');
+                navHome.classList.add('active');
+                navAdd.classList.remove('active');
+            });
+            
+            // Purchase modal
+            cancelPurchaseBtn.addEventListener('click', () => {
+                purchaseModal.classList.remove('active');
+                alert('Purchase cancelled. Your budget is safe!');
+            });
+            
+            confirmPurchaseBtn.addEventListener('click', () => {
+                purchaseModal.classList.remove('active');
+                
+                // Use alternative if selected, otherwise use original
+                const purchasePrice = appState.selectedAlternative ? appState.selectedAlternative.price : appState.selectedItem.price;
+                const purchaseName = appState.selectedAlternative ? appState.selectedAlternative.name : appState.selectedItem.name;
+                
+                // Add the purchase as an expense
+                addExpense(appState.selectedItem.category, purchasePrice, purchaseName);
+                
+                alert(`You purchased ${purchaseName} for ₱${purchasePrice.toLocaleString()}`);
+            });
+            
+            // Alternative modal
+            selectAlternativeBtn.addEventListener('click', () => {
+                if (!appState.selectedAlternative) {
+                    alert('Please select an alternative first');
+                    return;
+                }
+                
+                alternativeModal.classList.remove('active');
+                
+                // Add the alternative purchase as an expense
+                addExpense(appState.selectedItem.category, appState.selectedAlternative.price, appState.selectedAlternative.name);
+                
+                alert(`You purchased ${appState.selectedAlternative.name} for ₱${appState.selectedAlternative.price.toLocaleString()} (Saved ₱${(appState.selectedItem.price - appState.selectedAlternative.price).toLocaleString()}!)`);
+            });
+            
+            closeAlternativeModalBtn.addEventListener('click', () => {
+                alternativeModal.classList.remove('active');
+                purchaseModal.classList.add('active');
+            });
+            
+            // Warning modal
+            acknowledgeWarningBtn.addEventListener('click', () => {
+                warningModal.classList.remove('active');
+            });
+            
+            // Close modals when clicking outside
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    purchaseModal.classList.remove('active');
+                    alternativeModal.classList.remove('active');
+                    warningModal.classList.remove('active');
+                }
+            });
+        }
+        
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
