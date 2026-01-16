@@ -317,20 +317,11 @@
         
         .progress-fill {
             height: 100%;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border-radius: 6px;
             width: 0%;
             transition: width 0.5s ease;
             position: relative;
-            background: var(--border-color); /* Default background */
-        }
-        
-        /* Category segments in progress bar */
-        .category-segment {
-            position: absolute;
-            height: 100%;
-            top: 0;
-            border-radius: 0;
-            transition: width 0.5s ease;
         }
         
         .progress-category-marker {
@@ -1259,7 +1250,7 @@
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill">
-                            <!-- Category segments will be added here dynamically -->
+                            <!-- Category markers will be added here dynamically -->
                         </div>
                     </div>
                     <div class="progress-text">
@@ -1731,7 +1722,7 @@
         const darkModeToggle = document.getElementById('darkModeToggle');
         const languageSelect = document.getElementById('languageSelect');
         
-        // App State - RESETS ON EVERY PAGE LOAD
+        // App State
         const appState = {
             user: {
                 name: '',
@@ -1749,10 +1740,10 @@
             budget: 25000,
             spent: 0,
             categories: [
-                { id: 'food', name: 'Food & Drinks', icon: 'fa-utensils', spent: 0, color: '#34a853' },
+                { id: 'food', name: 'Food Drinks', icon: 'fa-utensils', spent: 0, color: '#34a853' },
                 { id: 'clothes', name: 'Clothes', icon: 'fa-tshirt', spent: 0, color: '#fbbc05' },
                 { id: 'shoes', name: 'Shoes', icon: 'fa-shoe-prints', spent: 0, color: '#e74c3c' },
-                { id: 'electronics', name: 'Appliances & Devices', icon: 'fa-laptop', spent: 0, color: '#4285f4' },
+                { id: 'electronics', name: 'Appliances Devices', icon: 'fa-laptop', spent: 0, color: '#4285f4' },
                 { id: 'transport', name: 'Car Supplies', icon: 'fa-car', spent: 0, color: '#9b59b6' },
                 { id: 'entertainment', name: 'Toys', icon: 'fa-gamepad', spent: 0, color: '#1abc9c' },
                 { id: 'tools', name: 'Tools', icon: 'fa-tools', spent: 0, color: '#d35400' },
@@ -2096,10 +2087,20 @@
             }
         };
         
-        // Initialize the app - NO LOCAL STORAGE USED
+        // Initialize the app
         function initApp() {
-            // Always start fresh - no saved data
-            resetAppState();
+            // Check for saved dark mode preference
+            const savedDarkMode = localStorage.getItem('spendsmartDarkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+                appState.isDarkMode = true;
+            }
+            
+            // Check for saved language preference
+            const savedLanguage = localStorage.getItem('spendsmartLanguage') || 'en';
+            appState.currentLanguage = savedLanguage;
+            languageSelect.value = savedLanguage;
             
             updateBudgetDisplay();
             renderCategories();
@@ -2108,68 +2109,12 @@
             updateOrderDisplay();
             updateTranslations();
             
-            // Set default profile display
-            updateProfileDisplay();
-        }
-        
-        // Reset app state to defaults
-        function resetAppState() {
-            // Reset user data
-            appState.user = {
-                name: '',
-                displayName: '',
-                username: '',
-                bio: '',
-                pronouns: 'they/them',
-                gender: 'not-specified',
-                age: '',
-                birthday: '',
-                job: '',
-                income: '',
-                profilePicture: null
-            };
-            
-            // Reset budget and spending
-            appState.budget = 25000;
-            appState.spent = 0;
-            
-            // Reset category spending
-            appState.categories.forEach(category => {
-                category.spent = 0;
-            });
-            
-            // Reset preferences
-            appState.currentLanguage = 'en';
-            appState.isDarkMode = false;
-            
-            // Reset UI elements
-            document.body.classList.remove('dark-mode');
-            darkModeToggle.checked = false;
-            languageSelect.value = 'en';
-            
-            // Reset form fields
-            document.getElementById('userName').value = '';
-            document.getElementById('userAge').value = '';
-            document.getElementById('userBirthday').value = '';
-            document.getElementById('userJob').value = '';
-            document.getElementById('userIncome').value = '';
-            document.getElementById('manualLimit').value = '';
-            editDisplayName.value = '';
-            editUsername.value = '';
-            editBio.value = '';
-            editPronouns.value = 'they/them';
-            editGender.value = 'not-specified';
-            
-            // Show setup screen
-            setupScreen.classList.add('active');
-            dashboard.classList.remove('active');
-            expenseForm.classList.remove('active');
-            ordersScreen.classList.remove('active');
-            profileScreen.classList.remove('active');
-            settingsScreen.classList.remove('active');
-            
-            // Reset navigation
-            setActiveNav('home');
+            // Load saved profile if exists
+            const savedProfile = localStorage.getItem('spendsmartProfile');
+            if (savedProfile) {
+                appState.user = JSON.parse(savedProfile);
+                updateProfileDisplay();
+            }
         }
         
         // Update all text with current language
@@ -2192,7 +2137,7 @@
             });
         }
         
-        // Update budget display with category-specific colors
+        // Update budget display
         function updateBudgetDisplay() {
             const percentage = appState.budget > 0 ? (appState.spent / appState.budget) * 100 : 0;
             
@@ -2201,10 +2146,6 @@
             progressFill.style.width = `${percentage}%`;
             progressPercentage.textContent = `${percentage.toFixed(0)}%`;
             
-            // Update category segments in progress bar
-            updateCategorySegments();
-            
-            // Update category breakdown
             updateCategoryBreakdown();
             
             if (appState.spent > appState.budget && !appState.isBudgetExceeded) {
@@ -2213,43 +2154,23 @@
             }
         }
         
-        // Update category segments in progress bar with individual colors
-        function updateCategorySegments() {
-            progressFill.innerHTML = '';
-            
-            let cumulativePercentage = 0;
-            let hasSpending = false;
-            
-            appState.categories.forEach(category => {
-                if (category.spent > 0) {
-                    hasSpending = true;
-                    const categoryPercentage = (category.spent / appState.budget) * 100;
-                    
-                    const segment = document.createElement('div');
-                    segment.className = 'category-segment';
-                    segment.style.left = `${cumulativePercentage}%`;
-                    segment.style.width = `${categoryPercentage}%`;
-                    segment.style.backgroundColor = category.color;
-                    progressFill.appendChild(segment);
-                    
-                    cumulativePercentage += categoryPercentage;
-                }
-            });
-            
-            // If no spending, show empty bar
-            if (!hasSpending) {
-                progressFill.style.background = 'var(--border-color)';
-            } else {
-                progressFill.style.background = 'transparent';
-            }
-        }
-        
-        // Update category breakdown display
+        // Update category breakdown in progress bar
         function updateCategoryBreakdown() {
+            progressFill.innerHTML = '';
             categoryBreakdown.innerHTML = '';
             
+            let cumulativePercentage = 0;
+            
             appState.categories.forEach(category => {
                 if (category.spent > 0) {
+                    const categoryPercentage = (category.spent / appState.budget) * 100;
+                    
+                    const marker = document.createElement('div');
+                    marker.className = 'progress-category-marker';
+                    marker.style.left = `${cumulativePercentage}%`;
+                    marker.style.backgroundColor = category.color;
+                    progressFill.appendChild(marker);
+                    
                     const breakdownItem = document.createElement('div');
                     breakdownItem.className = 'category-breakdown-item';
                     breakdownItem.innerHTML = `
@@ -2257,6 +2178,8 @@
                         <span>${category.name}: ₱${category.spent.toLocaleString()}</span>
                     `;
                     categoryBreakdown.appendChild(breakdownItem);
+                    
+                    cumulativePercentage += categoryPercentage;
                 }
             });
         }
@@ -2444,12 +2367,6 @@
                         ${userInitial}
                     </div>
                 `;
-            } else {
-                userProfile.innerHTML = `
-                    <div class="profile-placeholder">
-                        <i class="fas fa-user"></i>
-                    </div>
-                `;
             }
             
             // Update large profile picture
@@ -2465,15 +2382,6 @@
                 profilePictureLarge.innerHTML = `
                     <div class="profile-placeholder profile-placeholder-large">
                         ${userInitial}
-                    </div>
-                    <div class="profile-picture-edit">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                `;
-            } else {
-                profilePictureLarge.innerHTML = `
-                    <div class="profile-placeholder profile-placeholder-large">
-                        <i class="fas fa-user"></i>
                     </div>
                     <div class="profile-picture-edit">
                         <i class="fas fa-camera"></i>
@@ -2612,6 +2520,7 @@
         // Set default profile picture
         function setDefaultProfilePicture() {
             appState.user.profilePicture = null;
+            localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
             updateSmallProfilePicture();
         }
         
@@ -2620,15 +2529,18 @@
             if (isDark) {
                 document.body.classList.add('dark-mode');
                 appState.isDarkMode = true;
+                localStorage.setItem('spendsmartDarkMode', 'true');
             } else {
                 document.body.classList.remove('dark-mode');
                 appState.isDarkMode = false;
+                localStorage.setItem('spendsmartDarkMode', 'false');
             }
         }
         
         // Change language
         function changeLanguage(lang) {
             appState.currentLanguage = lang;
+            localStorage.setItem('spendsmartLanguage', lang);
             updateTranslations();
         }
         
@@ -2685,6 +2597,9 @@
                     category.spent = 0;
                 });
                 
+                // Save profile
+                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
+                
                 // Update UI
                 setupScreen.classList.remove('active');
                 dashboard.classList.add('active');
@@ -2719,6 +2634,7 @@
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         appState.user.profilePicture = event.target.result;
+                        localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
                         updateSmallProfilePicture();
                         profileUpload.classList.remove('active');
                         alert('Profile picture updated successfully!');
@@ -2749,6 +2665,7 @@
                 appState.user.pronouns = editPronouns.value;
                 appState.user.gender = editGender.value;
                 
+                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
                 updateProfileDisplay();
                 
                 alert('Profile updated successfully!');
