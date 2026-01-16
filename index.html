@@ -317,11 +317,20 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border-radius: 6px;
             width: 0%;
             transition: width 0.5s ease;
             position: relative;
+            background: var(--border-color); /* Default background */
+        }
+        
+        /* Category segments in progress bar */
+        .category-segment {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            border-radius: 0;
+            transition: width 0.5s ease;
         }
         
         .progress-category-marker {
@@ -1140,17 +1149,6 @@
             color: var(--text-light);
             font-size: 14px;
         }
-        
-        .logo-image::before {
-            content: "";
-            background-image: url('ss.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            width: 100%;
-            height: 100%;
-        }
-
     </style>
 </head>
 <body>
@@ -1248,7 +1246,7 @@
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill">
-                            <!-- Category markers will be added here dynamically -->
+                            <!-- Category segments will be added here dynamically -->
                         </div>
                     </div>
                     <div class="progress-text">
@@ -1720,7 +1718,7 @@
         const darkModeToggle = document.getElementById('darkModeToggle');
         const languageSelect = document.getElementById('languageSelect');
         
-        // App State
+        // App State - RESETS ON EVERY PAGE LOAD
         const appState = {
             user: {
                 name: '',
@@ -1738,10 +1736,10 @@
             budget: 25000,
             spent: 0,
             categories: [
-                { id: 'food', name: 'Food Drinks', icon: 'fa-utensils', spent: 0, color: '#34a853' },
+                { id: 'food', name: 'Food & Drinks', icon: 'fa-utensils', spent: 0, color: '#34a853' },
                 { id: 'clothes', name: 'Clothes', icon: 'fa-tshirt', spent: 0, color: '#fbbc05' },
                 { id: 'shoes', name: 'Shoes', icon: 'fa-shoe-prints', spent: 0, color: '#e74c3c' },
-                { id: 'electronics', name: 'Appliances Devices', icon: 'fa-laptop', spent: 0, color: '#4285f4' },
+                { id: 'electronics', name: 'Appliances & Devices', icon: 'fa-laptop', spent: 0, color: '#4285f4' },
                 { id: 'transport', name: 'Car Supplies', icon: 'fa-car', spent: 0, color: '#9b59b6' },
                 { id: 'entertainment', name: 'Toys', icon: 'fa-gamepad', spent: 0, color: '#1abc9c' },
                 { id: 'tools', name: 'Tools', icon: 'fa-tools', spent: 0, color: '#d35400' },
@@ -1930,7 +1928,7 @@
                 helpAnswer2: 'I-tap ang "+ Dagdagan" na button sa ibabang navigation, pumili ng kategorya, ilagay ang halaga, at i-save. Ang gastos ay maidaragdag sa iyong tracker.',
                 helpQuestion3: 'Ano ang mga alternatibong produkto?',
                 helpAnswer3: 'Kapag nag-click ka sa isang produkto sa "Para sa Iyo", nagpapakita kami ng mga mas murang alternatibo upang matulungan kang makatipid ng pera habang nakukuha pa rin ang iyong kailangan.',
-                helpQuestion4: 'Paano ko babaguhin ang aking profile picture?',
+                helpQuestion4: 'Paano ko babaguhin ang aying profile picture?',
                 helpAnswer4: 'Pumunta sa iyong Profile screen at i-click ang iyong profile picture. Maaari kang mag-upload ng bagong larawan o gumamit ng default na avatar.'
             },
             ja: {
@@ -2085,20 +2083,10 @@
             }
         };
         
-        // Initialize the app
+        // Initialize the app - NO LOCAL STORAGE USED
         function initApp() {
-            // Check for saved dark mode preference
-            const savedDarkMode = localStorage.getItem('spendsmartDarkMode') === 'true';
-            if (savedDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.checked = true;
-                appState.isDarkMode = true;
-            }
-            
-            // Check for saved language preference
-            const savedLanguage = localStorage.getItem('spendsmartLanguage') || 'en';
-            appState.currentLanguage = savedLanguage;
-            languageSelect.value = savedLanguage;
+            // Always start fresh - no saved data
+            resetAppState();
             
             updateBudgetDisplay();
             renderCategories();
@@ -2107,12 +2095,68 @@
             updateOrderDisplay();
             updateTranslations();
             
-            // Load saved profile if exists
-            const savedProfile = localStorage.getItem('spendsmartProfile');
-            if (savedProfile) {
-                appState.user = JSON.parse(savedProfile);
-                updateProfileDisplay();
-            }
+            // Set default profile display
+            updateProfileDisplay();
+        }
+        
+        // Reset app state to defaults
+        function resetAppState() {
+            // Reset user data
+            appState.user = {
+                name: '',
+                displayName: '',
+                username: '',
+                bio: '',
+                pronouns: 'they/them',
+                gender: 'not-specified',
+                age: '',
+                birthday: '',
+                job: '',
+                income: '',
+                profilePicture: null
+            };
+            
+            // Reset budget and spending
+            appState.budget = 25000;
+            appState.spent = 0;
+            
+            // Reset category spending
+            appState.categories.forEach(category => {
+                category.spent = 0;
+            });
+            
+            // Reset preferences
+            appState.currentLanguage = 'en';
+            appState.isDarkMode = false;
+            
+            // Reset UI elements
+            document.body.classList.remove('dark-mode');
+            darkModeToggle.checked = false;
+            languageSelect.value = 'en';
+            
+            // Reset form fields
+            document.getElementById('userName').value = '';
+            document.getElementById('userAge').value = '';
+            document.getElementById('userBirthday').value = '';
+            document.getElementById('userJob').value = '';
+            document.getElementById('userIncome').value = '';
+            document.getElementById('manualLimit').value = '';
+            editDisplayName.value = '';
+            editUsername.value = '';
+            editBio.value = '';
+            editPronouns.value = 'they/them';
+            editGender.value = 'not-specified';
+            
+            // Show setup screen
+            setupScreen.classList.add('active');
+            dashboard.classList.remove('active');
+            expenseForm.classList.remove('active');
+            ordersScreen.classList.remove('active');
+            profileScreen.classList.remove('active');
+            settingsScreen.classList.remove('active');
+            
+            // Reset navigation
+            setActiveNav('home');
         }
         
         // Update all text with current language
@@ -2135,7 +2179,7 @@
             });
         }
         
-        // Update budget display
+        // Update budget display with category-specific colors
         function updateBudgetDisplay() {
             const percentage = appState.budget > 0 ? (appState.spent / appState.budget) * 100 : 0;
             
@@ -2144,6 +2188,10 @@
             progressFill.style.width = `${percentage}%`;
             progressPercentage.textContent = `${percentage.toFixed(0)}%`;
             
+            // Update category segments in progress bar
+            updateCategorySegments();
+            
+            // Update category breakdown
             updateCategoryBreakdown();
             
             if (appState.spent > appState.budget && !appState.isBudgetExceeded) {
@@ -2152,23 +2200,43 @@
             }
         }
         
-        // Update category breakdown in progress bar
-        function updateCategoryBreakdown() {
+        // Update category segments in progress bar with individual colors
+        function updateCategorySegments() {
             progressFill.innerHTML = '';
-            categoryBreakdown.innerHTML = '';
             
             let cumulativePercentage = 0;
+            let hasSpending = false;
             
             appState.categories.forEach(category => {
                 if (category.spent > 0) {
+                    hasSpending = true;
                     const categoryPercentage = (category.spent / appState.budget) * 100;
                     
-                    const marker = document.createElement('div');
-                    marker.className = 'progress-category-marker';
-                    marker.style.left = `${cumulativePercentage}%`;
-                    marker.style.backgroundColor = category.color;
-                    progressFill.appendChild(marker);
+                    const segment = document.createElement('div');
+                    segment.className = 'category-segment';
+                    segment.style.left = `${cumulativePercentage}%`;
+                    segment.style.width = `${categoryPercentage}%`;
+                    segment.style.backgroundColor = category.color;
+                    progressFill.appendChild(segment);
                     
+                    cumulativePercentage += categoryPercentage;
+                }
+            });
+            
+            // If no spending, show empty bar
+            if (!hasSpending) {
+                progressFill.style.background = 'var(--border-color)';
+            } else {
+                progressFill.style.background = 'transparent';
+            }
+        }
+        
+        // Update category breakdown display
+        function updateCategoryBreakdown() {
+            categoryBreakdown.innerHTML = '';
+            
+            appState.categories.forEach(category => {
+                if (category.spent > 0) {
                     const breakdownItem = document.createElement('div');
                     breakdownItem.className = 'category-breakdown-item';
                     breakdownItem.innerHTML = `
@@ -2176,8 +2244,6 @@
                         <span>${category.name}: ₱${category.spent.toLocaleString()}</span>
                     `;
                     categoryBreakdown.appendChild(breakdownItem);
-                    
-                    cumulativePercentage += categoryPercentage;
                 }
             });
         }
@@ -2365,6 +2431,12 @@
                         ${userInitial}
                     </div>
                 `;
+            } else {
+                userProfile.innerHTML = `
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                `;
             }
             
             // Update large profile picture
@@ -2380,6 +2452,15 @@
                 profilePictureLarge.innerHTML = `
                     <div class="profile-placeholder profile-placeholder-large">
                         ${userInitial}
+                    </div>
+                    <div class="profile-picture-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                `;
+            } else {
+                profilePictureLarge.innerHTML = `
+                    <div class="profile-placeholder profile-placeholder-large">
+                        <i class="fas fa-user"></i>
                     </div>
                     <div class="profile-picture-edit">
                         <i class="fas fa-camera"></i>
@@ -2518,7 +2599,6 @@
         // Set default profile picture
         function setDefaultProfilePicture() {
             appState.user.profilePicture = null;
-            localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
             updateSmallProfilePicture();
         }
         
@@ -2527,19 +2607,41 @@
             if (isDark) {
                 document.body.classList.add('dark-mode');
                 appState.isDarkMode = true;
-                localStorage.setItem('spendsmartDarkMode', 'true');
             } else {
                 document.body.classList.remove('dark-mode');
                 appState.isDarkMode = false;
-                localStorage.setItem('spendsmartDarkMode', 'false');
             }
         }
         
         // Change language
         function changeLanguage(lang) {
             appState.currentLanguage = lang;
-            localStorage.setItem('spendsmartLanguage', lang);
             updateTranslations();
+        }
+        
+        // Show specific screen
+        function showScreen(screenName) {
+            [setupScreen, dashboard, expenseForm, ordersScreen, profileScreen, settingsScreen].forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            if (screenName === 'dashboard') dashboard.classList.add('active');
+            if (screenName === 'expenseForm') expenseForm.classList.add('active');
+            if (screenName === 'ordersScreen') ordersScreen.classList.add('active');
+            if (screenName === 'profileScreen') profileScreen.classList.add('active');
+            if (screenName === 'settingsScreen') settingsScreen.classList.add('active');
+        }
+        
+        // Set active navigation
+        function setActiveNav(navItem) {
+            [navHome, navAdd, navProfile, navSettings].forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            if (navItem === 'home') navHome.classList.add('active');
+            if (navItem === 'add') navAdd.classList.add('active');
+            if (navItem === 'profile') navProfile.classList.add('active');
+            if (navItem === 'settings') navSettings.classList.add('active');
         }
         
         // Setup event listeners
@@ -2557,7 +2659,7 @@
                 manualLimitContainer.style.display = 'none';
             });
             
-            // Complete setup
+            // Complete setup - FIXED BUG HERE
             completeSetupBtn.addEventListener('click', () => {
                 const userName = document.getElementById('userName').value;
                 const userAge = document.getElementById('userAge').value;
@@ -2595,12 +2697,10 @@
                     category.spent = 0;
                 });
                 
-                // Save profile
-                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
+                // Update UI - Use showScreen function to properly switch screens
+                showScreen('dashboard');
+                setActiveNav('home');
                 
-                // Update UI
-                setupScreen.classList.remove('active');
-                dashboard.classList.add('active');
                 updateBudgetDisplay();
                 updateProfileDisplay();
             });
@@ -2632,7 +2732,6 @@
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         appState.user.profilePicture = event.target.result;
-                        localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
                         updateSmallProfilePicture();
                         profileUpload.classList.remove('active');
                         alert('Profile picture updated successfully!');
@@ -2663,7 +2762,6 @@
                 appState.user.pronouns = editPronouns.value;
                 appState.user.gender = editGender.value;
                 
-                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
                 updateProfileDisplay();
                 
                 alert('Profile updated successfully!');
@@ -2685,12 +2783,9 @@
                 const categoryItem = e.target.closest('.category-item');
                 if (categoryItem) {
                     const categoryId = categoryItem.dataset.category;
-                    dashboard.classList.remove('active');
-                    expenseForm.classList.add('active');
-                    expenseForm.classList.remove('setup-screen');
+                    showScreen('expenseForm');
                     expenseCategory.value = categoryId;
-                    navHome.classList.remove('active');
-                    navAdd.classList.add('active');
+                    setActiveNav('add');
                 }
             });
             
@@ -2804,30 +2899,6 @@
                 setActiveNav('settings');
             });
             
-            // Show specific screen
-            function showScreen(screenName) {
-                [setupScreen, dashboard, expenseForm, ordersScreen, profileScreen, settingsScreen].forEach(screen => {
-                    screen.classList.remove('active');
-                });
-                
-                if (screenName === 'dashboard') dashboard.classList.add('active');
-                if (screenName === 'expenseForm') expenseForm.classList.add('active');
-                if (screenName === 'profileScreen') profileScreen.classList.add('active');
-                if (screenName === 'settingsScreen') settingsScreen.classList.add('active');
-            }
-            
-            // Set active navigation
-            function setActiveNav(navItem) {
-                [navHome, navAdd, navProfile, navSettings].forEach(nav => {
-                    nav.classList.remove('active');
-                });
-                
-                if (navItem === 'home') navHome.classList.add('active');
-                if (navItem === 'add') navAdd.classList.add('active');
-                if (navItem === 'profile') navProfile.classList.add('active');
-                if (navItem === 'settings') navSettings.classList.add('active');
-            }
-            
             // Help center
             helpCenterBtn.addEventListener('click', () => {
                 helpCenterModal.classList.add('active');
@@ -2934,5 +3005,3 @@
     </script>
 </body>
 </html>
-
-
