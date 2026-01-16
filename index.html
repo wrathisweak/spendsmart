@@ -13,10 +13,40 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary-gradient: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            --primary-color: #34a853;
+            --secondary-color: #fbbc05;
+            --dark-color: #2d5a27;
+            --light-color: #f9fbf5;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #f9fbf5;
+            --card-bg: white;
+            --border-color: #eee;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --notification-bg: #e74c3c;
+        }
+        
+        body.dark-mode {
+            --primary-gradient: linear-gradient(135deg, #2ecc71 0%, #f39c12 100%);
+            --primary-color: #2ecc71;
+            --secondary-color: #f39c12;
+            --dark-color: #27ae60;
+            --light-color: #1a1a1a;
+            --text-color: #f5f5f5;
+            --text-light: #aaa;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --notification-bg: #c0392b;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f9fbf5;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             max-width: 500px;
             margin: 0 auto;
@@ -24,6 +54,7 @@
             height: 100vh;
             overflow-y: auto;
             position: relative;
+            transition: all 0.3s ease;
         }
         
         .container {
@@ -36,7 +67,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            background: var(--primary-gradient);
             color: white;
             border-radius: 0 0 15px 15px;
             margin-bottom: 20px;
@@ -60,18 +91,17 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* OUR LOGO - HARDCODED IN CSS */
         .logo-image::before {
             content: "SS";
             font-weight: bold;
             font-size: 18px;
-            color: #2d5a27;
+            color: var(--dark-color);
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            background: var(--primary-gradient);
         }
         
         .logo h1 {
@@ -128,10 +158,10 @@
         
         /* Setup Screen Styles */
         .setup-screen {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 15px;
             padding: 30px 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             margin-bottom: 20px;
             display: none;
         }
@@ -144,13 +174,13 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
-            color: #2d5a27;
+            color: var(--dark-color);
             text-align: center;
         }
         
         .setup-subtitle {
             font-size: 14px;
-            color: #666;
+            color: var(--text-light);
             text-align: center;
             margin-bottom: 30px;
         }
@@ -163,22 +193,24 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #444;
+            color: var(--text-color);
         }
         
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             font-size: 16px;
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
         
         .form-control:focus {
             outline: none;
-            border-color: #34a853;
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(52, 168, 83, 0.2);
         }
         
@@ -192,28 +224,29 @@
             flex: 1;
             text-align: center;
             padding: 15px 10px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border-color);
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
+            background-color: var(--card-bg);
         }
         
         .radio-option.selected {
-            border-color: #34a853;
+            border-color: var(--primary-color);
             background-color: rgba(52, 168, 83, 0.05);
         }
         
         .radio-option i {
             font-size: 24px;
             margin-bottom: 10px;
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .btn {
             display: block;
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             border-radius: 10px;
@@ -250,23 +283,23 @@
         }
         
         .budget-header {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             margin-bottom: 25px;
         }
         
         .budget-title {
             font-size: 16px;
-            color: #666;
+            color: var(--text-light);
             margin-bottom: 5px;
         }
         
         .budget-amount {
             font-size: 32px;
             font-weight: 700;
-            color: #2d5a27;
+            color: var(--dark-color);
             margin-bottom: 15px;
         }
         
@@ -276,7 +309,7 @@
         
         .progress-bar {
             height: 12px;
-            background-color: #e0e0e0;
+            background-color: var(--border-color);
             border-radius: 6px;
             overflow: hidden;
             position: relative;
@@ -284,9 +317,9 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #34a853 0%, #fbbc05 100%);
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border-radius: 6px;
-            width: 0%; /* Start at 0% */
+            width: 0%;
             transition: width 0.5s ease;
             position: relative;
         }
@@ -302,13 +335,13 @@
             display: flex;
             justify-content: space-between;
             font-size: 14px;
-            color: #666;
+            color: var(--text-light);
             margin-top: 5px;
         }
         
         .progress-percentage {
             font-weight: 600;
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .order-status {
@@ -316,7 +349,7 @@
             justify-content: space-between;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-color);
         }
         
         .status-item {
@@ -325,19 +358,19 @@
             align-items: center;
             gap: 5px;
             font-size: 12px;
-            color: #666;
+            color: var(--text-light);
             cursor: pointer;
             transition: all 0.3s;
             flex: 1;
         }
         
         .status-item:hover {
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .status-item i {
             font-size: 18px;
-            background-color: #f0f7f1;
+            background-color: rgba(52, 168, 83, 0.1);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -348,12 +381,12 @@
         }
         
         .status-item.active {
-            color: #fbbc05;
+            color: var(--secondary-color);
         }
         
         .status-item.active i {
             background-color: rgba(251, 188, 5, 0.1);
-            color: #fbbc05;
+            color: var(--secondary-color);
         }
         
         .category-breakdown {
@@ -367,10 +400,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.05);
             padding: 8px 12px;
             border-radius: 20px;
             font-size: 12px;
+        }
+        
+        body.dark-mode .category-breakdown-item {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .category-color {
@@ -386,7 +423,7 @@
         .section-title {
             font-size: 18px;
             font-weight: 600;
-            color: #2d5a27;
+            color: var(--dark-color);
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
@@ -395,7 +432,7 @@
         
         .see-all {
             font-size: 14px;
-            color: #34a853;
+            color: var(--primary-color);
             cursor: pointer;
             font-weight: 500;
         }
@@ -407,11 +444,11 @@
         }
         
         .category-item {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 12px;
             padding: 15px 10px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -423,27 +460,27 @@
         
         .category-item i {
             font-size: 24px;
-            color: #34a853;
+            color: var(--primary-color);
             margin-bottom: 8px;
         }
         
         .category-name {
             font-size: 13px;
             font-weight: 500;
-            color: #333;
+            color: var(--text-color);
         }
         
         .category-spent {
             font-size: 11px;
-            color: #666;
+            color: var(--text-light);
             margin-top: 3px;
         }
         
         .for-you-section {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             margin-bottom: 25px;
         }
         
@@ -455,13 +492,17 @@
         }
         
         .for-you-item {
-            background-color: #f8f9fa;
+            background-color: rgba(0, 0, 0, 0.05);
             border-radius: 12px;
             padding: 15px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 1px solid #e9ecef;
+            border: 1px solid var(--border-color);
             position: relative;
+        }
+        
+        body.dark-mode .for-you-item {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .for-you-item:hover {
@@ -472,13 +513,13 @@
         .item-image {
             width: 100%;
             height: 100px;
-            background-color: #e0e0e0;
+            background-color: var(--border-color);
             border-radius: 8px;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: var(--text-light);
             font-size: 40px;
             overflow: hidden;
         }
@@ -493,17 +534,18 @@
             font-size: 15px;
             font-weight: 500;
             margin-bottom: 5px;
+            color: var(--text-color);
         }
         
         .item-price {
             font-size: 18px;
             font-weight: 700;
-            color: #2d5a27;
+            color: var(--dark-color);
         }
         
         .item-alternative {
             font-size: 12px;
-            color: #34a853;
+            color: var(--primary-color);
             margin-top: 5px;
             display: flex;
             align-items: center;
@@ -512,8 +554,8 @@
         }
         
         .alternative-tag {
-            background-color: #fbbc05;
-            color: #333;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
             font-size: 10px;
             padding: 2px 6px;
             border-radius: 10px;
@@ -540,7 +582,7 @@
         }
         
         .modal {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 15px;
             width: 90%;
             max-width: 400px;
@@ -553,14 +595,14 @@
         .modal-title {
             font-size: 20px;
             font-weight: 700;
-            color: #2d5a27;
+            color: var(--dark-color);
             margin-bottom: 15px;
             text-align: center;
         }
         
         .modal-text {
             font-size: 15px;
-            color: #666;
+            color: var(--text-light);
             margin-bottom: 20px;
             text-align: center;
         }
@@ -588,32 +630,33 @@
             align-items: center;
             gap: 15px;
             padding: 15px;
-            border: 1px solid #e9ecef;
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.3s;
+            background-color: var(--card-bg);
         }
         
         .alternative-product:hover {
-            border-color: #34a853;
+            border-color: var(--primary-color);
             background-color: rgba(52, 168, 83, 0.05);
         }
         
         .alternative-product.selected {
-            border-color: #34a853;
+            border-color: var(--primary-color);
             background-color: rgba(52, 168, 83, 0.1);
         }
         
         .alternative-image {
             width: 60px;
             height: 60px;
-            background-color: #e0e0e0;
+            background-color: var(--border-color);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: var(--text-light);
             font-size: 24px;
         }
         
@@ -624,16 +667,17 @@
         .alternative-name {
             font-weight: 500;
             margin-bottom: 5px;
+            color: var(--text-color);
         }
         
         .alternative-price {
             font-weight: 700;
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .original-price {
             text-decoration: line-through;
-            color: #999;
+            color: var(--text-light);
             font-size: 14px;
             margin-left: 5px;
         }
@@ -673,7 +717,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: white;
+            background-color: var(--card-bg);
             padding: 15px 0;
             display: flex;
             justify-content: space-around;
@@ -687,13 +731,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #999;
+            color: var(--text-light);
             cursor: pointer;
             transition: all 0.3s;
         }
         
         .nav-item.active {
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .nav-item i {
@@ -706,7 +750,7 @@
         }
         
         .nav-item:hover {
-            color: #34a853;
+            color: var(--primary-color);
         }
         
         .expense-form {
@@ -719,10 +763,10 @@
         
         .orders-screen {
             display: none;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow);
             margin-bottom: 25px;
         }
         
@@ -739,7 +783,7 @@
             align-items: center;
             gap: 15px;
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .order-item:last-child {
@@ -785,16 +829,243 @@
         .order-product {
             font-weight: 500;
             margin-bottom: 5px;
+            color: var(--text-color);
         }
         
         .order-price {
             font-weight: 600;
-            color: #2d5a27;
+            color: var(--dark-color);
         }
         
         .order-date {
             font-size: 12px;
-            color: #999;
+            color: var(--text-light);
+        }
+        
+        /* Profile Screen Styles */
+        .profile-screen {
+            display: none;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+        
+        .profile-screen.active {
+            display: block;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .profile-picture-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            position: relative;
+            cursor: pointer;
+            border: 3px solid var(--primary-color);
+            overflow: hidden;
+        }
+        
+        .profile-picture-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-picture-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .profile-username {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        
+        .profile-bio {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            max-width: 300px;
+        }
+        
+        .profile-details {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .profile-detail {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        body.dark-mode .profile-detail {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Settings Screen Styles */
+        .settings-screen {
+            display: none;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+        
+        .settings-screen.active {
+            display: block;
+        }
+        
+        .settings-section {
+            margin-bottom: 25px;
+        }
+        
+        .settings-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-title i {
+            color: var(--primary-color);
+        }
+        
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+        
+        body.dark-mode .settings-item:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .settings-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .settings-item-left i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+        
+        .settings-item-right {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .settings-item-right i {
+            margin-left: 5px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .language-select {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            cursor: pointer;
         }
         
         /* Profile picture upload area styling */
@@ -803,10 +1074,10 @@
             position: absolute;
             top: 60px;
             right: 20px;
-            background: white;
+            background: var(--card-bg);
             padding: 15px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
             z-index: 100;
             width: 250px;
         }
@@ -819,14 +1090,16 @@
             width: 100%;
             margin-bottom: 10px;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 5px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
         
         .profile-upload button {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             border-radius: 5px;
@@ -839,21 +1112,47 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #34a853 0%, #fbbc05 100%);
+            background: var(--primary-gradient);
             color: white;
             font-size: 18px;
         }
         
+        .profile-placeholder-large {
+            font-size: 40px;
+        }
+        
+        .help-center-content {
+            margin-top: 20px;
+        }
+        
+        .help-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .help-question h4 {
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .help-question p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Example of adding a real logo image - Uncomment and add your image */
+        /*
         .logo-image::before {
             content: "";
-            background-image: url('ss.png');
+            background-image: url('your-logo-image.png');
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             width: 100%;
             height: 100%;
         }
-        
+        */
     </style>
 </head>
 <body>
@@ -862,13 +1161,8 @@
         <div class="logo">
             <div class="logo-image">
                 <!-- OUR LOGO IS HARDCODED IN CSS -->
-                <!-- To add your actual logo image:
-                     1. Save your logo as "logo.png" in the same folder
-                     2. Uncomment the CSS code at the bottom of the style section
-                     3. Replace 'your-logo-image.png' with 'logo.png'
-                -->
             </div>
-            <h1>SpendSmart</h1>
+            <h1 id="appTitle">SpendSmart</h1>
         </div>
         
         <div class="search-bar">
@@ -886,9 +1180,9 @@
     
     <!-- Profile Picture Upload Panel -->
     <div class="profile-upload" id="profileUpload">
-        <p style="font-size: 14px; margin-bottom: 10px; color: #666;">Upload profile picture:</p>
+        <p style="font-size: 14px; margin-bottom: 10px; color: var(--text-light);">Upload profile picture:</p>
         <input type="file" id="profileFile" accept="image/*">
-        <p style="font-size: 12px; color: #999; margin: 10px 0;">Or use a placeholder:</p>
+        <p style="font-size: 12px; color: var(--text-light); margin: 10px 0;">Or use a placeholder:</p>
         <button id="usePlaceholder">Use Default Avatar</button>
     </div>
     
@@ -896,50 +1190,50 @@
     <div class="container">
         <!-- Setup Screen -->
         <div class="setup-screen active" id="setupScreen">
-            <h2 class="setup-title">Welcome to SpendSmart</h2>
-            <p class="setup-subtitle">Let's set up your profile and budget to get started</p>
+            <h2 class="setup-title" id="setupTitle">Welcome to SpendSmart</h2>
+            <p class="setup-subtitle" id="setupSubtitle">Let's set up your profile and budget to get started</p>
             
             <div class="form-group">
-                <label for="userName">Full Name</label>
+                <label for="userName" id="nameLabel">Full Name</label>
                 <input type="text" id="userName" class="form-control" placeholder="Enter your name">
             </div>
             
             <div class="form-group">
-                <label for="userAge">Age</label>
+                <label for="userAge" id="ageLabel">Age</label>
                 <input type="number" id="userAge" class="form-control" placeholder="Enter your age">
             </div>
             
             <div class="form-group">
-                <label for="userBirthday">Birthday</label>
+                <label for="userBirthday" id="birthdayLabel">Birthday</label>
                 <input type="date" id="userBirthday" class="form-control">
             </div>
             
             <div class="form-group">
-                <label for="userJob">Occupation</label>
+                <label for="userJob" id="jobLabel">Occupation</label>
                 <input type="text" id="userJob" class="form-control" placeholder="Enter your occupation">
             </div>
             
             <div class="form-group">
-                <label for="userIncome">Monthly Income (₱)</label>
+                <label for="userIncome" id="incomeLabel">Monthly Income (₱)</label>
                 <input type="number" id="userIncome" class="form-control" placeholder="Enter your monthly income">
             </div>
             
             <div class="form-group">
-                <label>Spending Limit Option</label>
+                <label id="spendingLimitLabel">Spending Limit Option</label>
                 <div class="radio-group">
                     <div class="radio-option" id="manualOption">
                         <i class="fas fa-edit"></i>
-                        <div>Set Manually</div>
+                        <div id="manualLabel">Set Manually</div>
                     </div>
                     <div class="radio-option selected" id="autoOption">
                         <i class="fas fa-robot"></i>
-                        <div>Auto Recommend</div>
+                        <div id="autoLabel">Auto Recommend</div>
                     </div>
                 </div>
             </div>
             
             <div class="form-group" id="manualLimitContainer" style="display: none;">
-                <label for="manualLimit">Monthly Spending Limit (₱)</label>
+                <label for="manualLimit" id="manualLimitLabel">Monthly Spending Limit (₱)</label>
                 <input type="number" id="manualLimit" class="form-control" placeholder="Enter your spending limit">
             </div>
             
@@ -950,7 +1244,7 @@
         <div class="dashboard" id="dashboard">
             <!-- Budget Summary -->
             <div class="budget-header">
-                <div class="budget-title">Monthly Spending Limit</div>
+                <div class="budget-title" id="budgetTitle">Monthly Spending Limit</div>
                 <div class="budget-amount" id="budgetAmount">₱25,000</div>
                 
                 <div class="progress-container">
@@ -974,27 +1268,27 @@
                 <div class="order-status">
                     <div class="status-item active" id="statusAll">
                         <i class="fas fa-clipboard-list"></i>
-                        <span>All</span>
+                        <span id="statusAllLabel">All</span>
                     </div>
                     <div class="status-item" id="statusToPay">
                         <i class="fas fa-money-bill-wave"></i>
-                        <span>To Pay</span>
+                        <span id="statusToPayLabel">To Pay</span>
                     </div>
                     <div class="status-item" id="statusToShip">
                         <i class="fas fa-shipping-fast"></i>
-                        <span>To Ship</span>
+                        <span id="statusToShipLabel">To Ship</span>
                     </div>
                     <div class="status-item" id="statusToReceive">
                         <i class="fas fa-truck-loading"></i>
-                        <span>To Receive</span>
+                        <span id="statusToReceiveLabel">To Receive</span>
                     </div>
                     <div class="status-item" id="statusRate">
                         <i class="fas fa-star"></i>
-                        <span>Rate</span>
+                        <span id="statusRateLabel">Rate</span>
                     </div>
                     <div class="status-item" id="statusCancelled">
                         <i class="fas fa-times-circle"></i>
-                        <span>Cancelled</span>
+                        <span id="statusCancelledLabel">Cancelled</span>
                     </div>
                 </div>
             </div>
@@ -1002,7 +1296,7 @@
             <!-- Categories Section -->
             <div class="categories-section">
                 <div class="section-title">
-                    <span>Spending Categories</span>
+                    <span id="categoriesTitle">Spending Categories</span>
                     <span class="see-all" id="seeAllCategories">See All</span>
                 </div>
                 
@@ -1014,10 +1308,10 @@
             <!-- "For You" Section -->
             <div class="for-you-section">
                 <div class="section-title">
-                    <span>For You</span>
+                    <span id="forYouTitle">For You</span>
                     <span class="see-all" id="seeAllForYou">See All</span>
                 </div>
-                <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Based on your preferences and spending behavior</p>
+                <p style="font-size: 14px; color: var(--text-light); margin-bottom: 10px;" id="forYouSubtitle">Based on your preferences and spending behavior</p>
                 
                 <div class="for-you-items" id="forYouItems">
                     <!-- Items will be populated by JavaScript -->
@@ -1027,29 +1321,29 @@
         
         <!-- Expense Form -->
         <div class="setup-screen expense-form" id="expenseForm">
-            <h2 class="setup-title">Add Expense</h2>
-            <p class="setup-subtitle">Record your purchase to track spending</p>
+            <h2 class="setup-title" id="addExpenseTitle">Add Expense</h2>
+            <p class="setup-subtitle" id="addExpenseSubtitle">Record your purchase to track spending</p>
             
             <div class="form-group">
-                <label for="expenseCategory">Category</label>
+                <label for="expenseCategory" id="categoryLabel">Category</label>
                 <select id="expenseCategory" class="form-control">
-                    <option value="food">Food & Drinks</option>
-                    <option value="clothes">Clothes</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="transport">Transportation</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="other">Other</option>
+                    <option value="food" id="foodOption">Food & Drinks</option>
+                    <option value="clothes" id="clothesOption">Clothes</option>
+                    <option value="shoes" id="shoesOption">Shoes</option>
+                    <option value="electronics" id="electronicsOption">Electronics</option>
+                    <option value="transport" id="transportOption">Transportation</option>
+                    <option value="entertainment" id="entertainmentOption">Entertainment</option>
+                    <option value="other" id="otherOption">Other</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label for="expenseAmount">Amount (₱)</label>
+                <label for="expenseAmount" id="amountLabel">Amount (₱)</label>
                 <input type="number" id="expenseAmount" class="form-control" placeholder="Enter amount">
             </div>
             
             <div class="form-group">
-                <label for="expenseDescription">Description</label>
+                <label for="expenseDescription" id="descriptionLabel">Description</label>
                 <input type="text" id="expenseDescription" class="form-control" placeholder="Enter description (optional)">
             </div>
             
@@ -1059,11 +1353,188 @@
         
         <!-- Orders Screen -->
         <div class="orders-screen" id="ordersScreen">
-            <h2 class="setup-title">Your Orders</h2>
+            <h2 class="setup-title" id="ordersTitle">Your Orders</h2>
             <p class="setup-subtitle" id="ordersSubtitle">All your purchases and their status</p>
             
             <div class="order-list" id="orderList">
                 <!-- Orders will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Profile Screen -->
+        <div class="profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-picture-large" id="profilePictureLarge">
+                    <div class="profile-placeholder profile-placeholder-large">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-picture-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <h2 class="profile-name" id="profileDisplayName">User Name</h2>
+                <p class="profile-username" id="profileUsername">@username</p>
+                <p class="profile-bio" id="profileBio">No bio yet. Add something about yourself!</p>
+                <div class="profile-details">
+                    <span class="profile-detail" id="profilePronouns">They/Them</span>
+                    <span class="profile-detail" id="profileGender">Not specified</span>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="settings-title">
+                    <i class="fas fa-user-edit"></i>
+                    <span id="editProfileTitle">Edit Profile</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editDisplayName" id="editDisplayNameLabel">Display Name</label>
+                    <input type="text" id="editDisplayName" class="form-control" placeholder="Enter your display name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editUsername" id="editUsernameLabel">Username</label>
+                    <input type="text" id="editUsername" class="form-control" placeholder="Enter username (without @)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editBio" id="editBioLabel">Bio</label>
+                    <textarea id="editBio" class="form-control" placeholder="Tell us about yourself" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPronouns" id="editPronounsLabel">Pronouns</label>
+                    <select id="editPronouns" class="form-control">
+                        <option value="they/them">They/Them</option>
+                        <option value="he/him">He/Him</option>
+                        <option value="she/her">She/Her</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editGender" id="editGenderLabel">Gender</label>
+                    <select id="editGender" class="form-control">
+                        <option value="not-specified">Not specified</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="non-binary">Non-binary</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                </div>
+                
+                <button class="btn" id="saveProfile">Save Profile</button>
+            </div>
+        </div>
+        
+        <!-- Settings Screen -->
+        <div class="settings-screen" id="settingsScreen">
+            <div class="settings-section">
+                <div class="settings-title">
+                    <i class="fas fa-palette"></i>
+                    <span id="appearanceTitle">Appearance</span>
+                </div>
+                
+                <div class="settings-item">
+                    <div class="settings-item-left">
+                        <i class="fas fa-moon"></i>
+                        <span id="darkModeLabel">Dark Mode</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="settings-title">
+                    <i class="fas fa-language"></i>
+                    <span id="languageTitle">Language</span>
+                </div>
+                
+                <div class="settings-item">
+                    <div class="settings-item-left">
+                        <i class="fas fa-globe"></i>
+                        <span id="appLanguageLabel">App Language</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <select id="languageSelect" class="language-select">
+                            <option value="en">English</option>
+                            <option value="fil">Filipino</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="settings-title">
+                    <i class="fas fa-question-circle"></i>
+                    <span id="helpTitle">Help & Support</span>
+                </div>
+                
+                <div class="settings-item" id="helpCenterBtn">
+                    <div class="settings-item-left">
+                        <i class="fas fa-life-ring"></i>
+                        <span id="helpCenterLabel">Help Center</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="settings-item" id="contactSupportBtn">
+                    <div class="settings-item-left">
+                        <i class="fas fa-headset"></i>
+                        <span id="contactSupportLabel">Contact Support</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <div class="settings-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="aboutTitle">About</span>
+                </div>
+                
+                <div class="settings-item">
+                    <div class="settings-item-left">
+                        <i class="fas fa-code"></i>
+                        <span id="versionLabel">Version</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <span>1.0.0</span>
+                    </div>
+                </div>
+                
+                <div class="settings-item" id="privacyPolicyBtn">
+                    <div class="settings-item-left">
+                        <i class="fas fa-shield-alt"></i>
+                        <span id="privacyPolicyLabel">Privacy Policy</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="settings-item" id="termsBtn">
+                    <div class="settings-item-left">
+                        <i class="fas fa-file-contract"></i>
+                        <span id="termsLabel">Terms of Service</span>
+                    </div>
+                    <div class="settings-item-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1072,26 +1543,26 @@
     <div class="bottom-nav">
         <div class="nav-item active" id="navHome">
             <i class="fas fa-home"></i>
-            <span>Home</span>
+            <span id="navHomeLabel">Home</span>
         </div>
         <div class="nav-item" id="navAdd">
             <i class="fas fa-plus-circle"></i>
-            <span>Add</span>
+            <span id="navAddLabel">Add</span>
         </div>
-        <div class="nav-item" id="navOrders">
-            <i class="fas fa-clipboard-list"></i>
-            <span>Orders</span>
+        <div class="nav-item" id="navProfile">
+            <i class="fas fa-user"></i>
+            <span id="navProfileLabel">Profile</span>
         </div>
         <div class="nav-item" id="navSettings">
             <i class="fas fa-cog"></i>
-            <span>Settings</span>
+            <span id="navSettingsLabel">Settings</span>
         </div>
     </div>
     
     <!-- Purchase Confirmation Modal -->
     <div class="modal-overlay" id="purchaseModal">
         <div class="modal">
-            <h3 class="modal-title">Think Before You Buy</h3>
+            <h3 class="modal-title" id="purchaseModalTitle">Think Before You Buy</h3>
             <p class="modal-text" id="modalQuestion">Do you really need this item?</p>
             
             <div class="alternative-products" id="alternativeProducts">
@@ -1108,8 +1579,8 @@
     <!-- Alternative Products Modal -->
     <div class="modal-overlay" id="alternativeModal">
         <div class="modal">
-            <h3 class="modal-title">Budget-Friendly Alternatives</h3>
-            <p class="modal-text">We found similar items at lower prices</p>
+            <h3 class="modal-title" id="alternativeModalTitle">Budget-Friendly Alternatives</h3>
+            <p class="modal-text" id="alternativeModalSubtitle">We found similar items at lower prices</p>
             
             <div class="alternative-products" id="allAlternatives">
                 <!-- All alternative products will be added here -->
@@ -1125,9 +1596,9 @@
     <!-- Budget Warning Modal -->
     <div class="modal-overlay" id="warningModal">
         <div class="modal">
-            <h3 class="modal-title">Budget Warning!</h3>
-            <p class="modal-text warning">You have exceeded your monthly spending limit!</p>
-            <p class="modal-text">Continuing to overspend may reduce your savings and negatively affect your financial goals.</p>
+            <h3 class="modal-title" id="warningModalTitle">Budget Warning!</h3>
+            <p class="modal-text warning" id="warningModalText">You have exceeded your monthly spending limit!</p>
+            <p class="modal-text" id="warningModalSubtitle">Continuing to overspend may reduce your savings and negatively affect your financial goals.</p>
             
             <div class="modal-actions">
                 <button class="btn" id="acknowledgeWarning">I Understand</button>
@@ -1135,10 +1606,43 @@
         </div>
     </div>
     
+    <!-- Help Center Modal -->
+    <div class="modal-overlay" id="helpCenterModal">
+        <div class="modal">
+            <h3 class="modal-title" id="helpCenterModalTitle">Help Center</h3>
+            
+            <div class="help-center-content">
+                <div class="help-question">
+                    <h4 id="helpQuestion1">How do I set my budget?</h4>
+                    <p id="helpAnswer1">Go to the setup screen or profile settings to set your monthly spending limit. You can set it manually or let the app recommend based on your income.</p>
+                </div>
+                
+                <div class="help-question">
+                    <h4 id="helpQuestion2">How do I add expenses?</h4>
+                    <p id="helpAnswer2">Tap the "+ Add" button at the bottom navigation, select a category, enter the amount, and save. The expense will be added to your tracker.</p>
+                </div>
+                
+                <div class="help-question">
+                    <h4 id="helpQuestion3">What are alternative products?</h4>
+                    <p id="helpAnswer3">When you click on a product in "For You", we show cheaper alternatives to help you save money while still getting what you need.</p>
+                </div>
+                
+                <div class="help-question">
+                    <h4 id="helpQuestion4">How do I change my profile picture?</h4>
+                    <p id="helpAnswer4">Go to your Profile screen and click on your profile picture. You can upload a new image or use a default avatar.</p>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn" id="closeHelpCenter">Close</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Notification -->
     <div class="notification" id="warningNotification">
         <i class="fas fa-exclamation-triangle"></i>
-        <div>You've exceeded your monthly budget!</div>
+        <div id="warningNotificationText">You've exceeded your monthly budget!</div>
     </div>
     
     <script>
@@ -1147,11 +1651,14 @@
         const dashboard = document.getElementById('dashboard');
         const expenseForm = document.getElementById('expenseForm');
         const ordersScreen = document.getElementById('ordersScreen');
+        const profileScreen = document.getElementById('profileScreen');
+        const settingsScreen = document.getElementById('settingsScreen');
         const manualOption = document.getElementById('manualOption');
         const autoOption = document.getElementById('autoOption');
         const manualLimitContainer = document.getElementById('manualLimitContainer');
         const completeSetupBtn = document.getElementById('completeSetup');
         const userProfile = document.getElementById('userProfile');
+        const profilePictureLarge = document.getElementById('profilePictureLarge');
         const searchInput = document.getElementById('searchInput');
         const categoriesGrid = document.getElementById('categoriesGrid');
         const forYouItems = document.getElementById('forYouItems');
@@ -1163,10 +1670,11 @@
         const purchaseModal = document.getElementById('purchaseModal');
         const alternativeModal = document.getElementById('alternativeModal');
         const warningModal = document.getElementById('warningModal');
+        const helpCenterModal = document.getElementById('helpCenterModal');
         const warningNotification = document.getElementById('warningNotification');
         const navHome = document.getElementById('navHome');
         const navAdd = document.getElementById('navAdd');
-        const navOrders = document.getElementById('navOrders');
+        const navProfile = document.getElementById('navProfile');
         const navSettings = document.getElementById('navSettings');
         const addExpenseBtn = document.getElementById('addExpense');
         const cancelExpenseBtn = document.getElementById('cancelExpense');
@@ -1186,18 +1694,51 @@
         const statusRate = document.getElementById('statusRate');
         const statusCancelled = document.getElementById('statusCancelled');
         const orderList = document.getElementById('orderList');
-        const ordersSubtitle = document.getElementById('ordersSubtitle');
         const alternativeProducts = document.getElementById('alternativeProducts');
         const allAlternatives = document.getElementById('allAlternatives');
         const profileUpload = document.getElementById('profileUpload');
         const profileFile = document.getElementById('profileFile');
         const usePlaceholderBtn = document.getElementById('usePlaceholder');
+        const closeHelpCenterBtn = document.getElementById('closeHelpCenter');
+        const helpCenterBtn = document.getElementById('helpCenterBtn');
+        const contactSupportBtn = document.getElementById('contactSupportBtn');
+        const privacyPolicyBtn = document.getElementById('privacyPolicyBtn');
+        const termsBtn = document.getElementById('termsBtn');
+        
+        // Profile elements
+        const profileDisplayName = document.getElementById('profileDisplayName');
+        const profileUsername = document.getElementById('profileUsername');
+        const profileBio = document.getElementById('profileBio');
+        const profilePronouns = document.getElementById('profilePronouns');
+        const profileGender = document.getElementById('profileGender');
+        const editDisplayName = document.getElementById('editDisplayName');
+        const editUsername = document.getElementById('editUsername');
+        const editBio = document.getElementById('editBio');
+        const editPronouns = document.getElementById('editPronouns');
+        const editGender = document.getElementById('editGender');
+        const saveProfileBtn = document.getElementById('saveProfile');
+        
+        // Settings elements
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const languageSelect = document.getElementById('languageSelect');
         
         // App State
         const appState = {
-            user: {},
+            user: {
+                name: '',
+                displayName: '',
+                username: '',
+                bio: '',
+                pronouns: 'they/them',
+                gender: 'not-specified',
+                age: '',
+                birthday: '',
+                job: '',
+                income: '',
+                profilePicture: null
+            },
             budget: 25000,
-            spent: 0, // Start with 0 spent
+            spent: 0,
             categories: [
                 { id: 'food', name: 'Food Drinks', icon: 'fa-utensils', spent: 0, color: '#34a853' },
                 { id: 'clothes', name: 'Clothes', icon: 'fa-tshirt', spent: 0, color: '#fbbc05' },
@@ -1237,16 +1778,363 @@
             selectedItem: null,
             selectedAlternative: null,
             currentOrderFilter: 'all',
-            isBudgetExceeded: false
+            isBudgetExceeded: false,
+            currentLanguage: 'en',
+            isDarkMode: false
+        };
+        
+        // Language translations
+        const translations = {
+            en: {
+                appTitle: 'SpendSmart',
+                setupTitle: 'Welcome to SpendSmart',
+                setupSubtitle: "Let's set up your profile and budget to get started",
+                nameLabel: 'Full Name',
+                ageLabel: 'Age',
+                birthdayLabel: 'Birthday',
+                jobLabel: 'Occupation',
+                incomeLabel: 'Monthly Income (₱)',
+                spendingLimitLabel: 'Spending Limit Option',
+                manualLabel: 'Set Manually',
+                autoLabel: 'Auto Recommend',
+                manualLimitLabel: 'Monthly Spending Limit (₱)',
+                budgetTitle: 'Monthly Spending Limit',
+                statusAllLabel: 'All',
+                statusToPayLabel: 'To Pay',
+                statusToShipLabel: 'To Ship',
+                statusToReceiveLabel: 'To Receive',
+                statusRateLabel: 'Rate',
+                statusCancelledLabel: 'Cancelled',
+                categoriesTitle: 'Spending Categories',
+                forYouTitle: 'For You',
+                forYouSubtitle: 'Based on your preferences and spending behavior',
+                addExpenseTitle: 'Add Expense',
+                addExpenseSubtitle: 'Record your purchase to track spending',
+                categoryLabel: 'Category',
+                foodOption: 'Food & Drinks',
+                clothesOption: 'Clothes',
+                shoesOption: 'Shoes',
+                electronicsOption: 'Electronics',
+                transportOption: 'Transportation',
+                entertainmentOption: 'Entertainment',
+                otherOption: 'Other',
+                amountLabel: 'Amount (₱)',
+                descriptionLabel: 'Description',
+                ordersTitle: 'Your Orders',
+                ordersSubtitle: 'All your purchases and their status',
+                editProfileTitle: 'Edit Profile',
+                editDisplayNameLabel: 'Display Name',
+                editUsernameLabel: 'Username',
+                editBioLabel: 'Bio',
+                editPronounsLabel: 'Pronouns',
+                editGenderLabel: 'Gender',
+                appearanceTitle: 'Appearance',
+                darkModeLabel: 'Dark Mode',
+                languageTitle: 'Language',
+                appLanguageLabel: 'App Language',
+                helpTitle: 'Help & Support',
+                helpCenterLabel: 'Help Center',
+                contactSupportLabel: 'Contact Support',
+                aboutTitle: 'About',
+                versionLabel: 'Version',
+                privacyPolicyLabel: 'Privacy Policy',
+                termsLabel: 'Terms of Service',
+                navHomeLabel: 'Home',
+                navAddLabel: 'Add',
+                navProfileLabel: 'Profile',
+                navSettingsLabel: 'Settings',
+                purchaseModalTitle: 'Think Before You Buy',
+                alternativeModalTitle: 'Budget-Friendly Alternatives',
+                alternativeModalSubtitle: 'We found similar items at lower prices',
+                warningModalTitle: 'Budget Warning!',
+                warningModalText: 'You have exceeded your monthly spending limit!',
+                warningModalSubtitle: 'Continuing to overspend may reduce your savings and negatively affect your financial goals.',
+                warningNotificationText: "You've exceeded your monthly budget!",
+                helpCenterModalTitle: 'Help Center',
+                helpQuestion1: 'How do I set my budget?',
+                helpAnswer1: 'Go to the setup screen or profile settings to set your monthly spending limit. You can set it manually or let the app recommend based on your income.',
+                helpQuestion2: 'How do I add expenses?',
+                helpAnswer2: 'Tap the "+ Add" button at the bottom navigation, select a category, enter the amount, and save. The expense will be added to your tracker.',
+                helpQuestion3: 'What are alternative products?',
+                helpAnswer3: 'When you click on a product in "For You", we show cheaper alternatives to help you save money while still getting what you need.',
+                helpQuestion4: 'How do I change my profile picture?',
+                helpAnswer4: 'Go to your Profile screen and click on your profile picture. You can upload a new image or use a default avatar.'
+            },
+            fil: {
+                appTitle: 'SpendSmart',
+                setupTitle: 'Maligayang pagdating sa SpendSmart',
+                setupSubtitle: 'Mag-set up tayo ng iyong profile at budget para makapagsimula',
+                nameLabel: 'Buong Pangalan',
+                ageLabel: 'Edad',
+                birthdayLabel: 'Kaarawan',
+                jobLabel: 'Trabaho',
+                incomeLabel: 'Buwanang Kita (₱)',
+                spendingLimitLabel: 'Opsyon sa Paggastos',
+                manualLabel: 'I-set Mano-mano',
+                autoLabel: 'Auto Rekomenda',
+                manualLimitLabel: 'Buwanang Limit sa Paggastos (₱)',
+                budgetTitle: 'Buwanang Limit sa Paggastos',
+                statusAllLabel: 'Lahat',
+                statusToPayLabel: 'Babayaran',
+                statusToShipLabel: 'Ipapadala',
+                statusToReceiveLabel: 'Matatanggap',
+                statusRateLabel: 'Rate',
+                statusCancelledLabel: 'Nakansela',
+                categoriesTitle: 'Mga Kategorya ng Paggastos',
+                forYouTitle: 'Para sa Iyo',
+                forYouSubtitle: 'Batay sa iyong mga kagustuhan at paggastos',
+                addExpenseTitle: 'Magdagdag ng Gastos',
+                addExpenseSubtitle: 'Itala ang iyong pagbili para masubaybayan ang paggastos',
+                categoryLabel: 'Kategorya',
+                foodOption: 'Pagkain at Inumin',
+                clothesOption: 'Damit',
+                shoesOption: 'Sapatos',
+                electronicsOption: 'Elektroniko',
+                transportOption: 'Transportasyon',
+                entertainmentOption: 'Aliwan',
+                otherOption: 'Iba Pa',
+                amountLabel: 'Halaga (₱)',
+                descriptionLabel: 'Paglalarawan',
+                ordersTitle: 'Iyong mga Order',
+                ordersSubtitle: 'Lahat ng iyong mga pagbili at kanilang katayuan',
+                editProfileTitle: 'I-edit ang Profile',
+                editDisplayNameLabel: 'Pangalang Ipakikita',
+                editUsernameLabel: 'Username',
+                editBioLabel: 'Bio',
+                editPronounsLabel: 'Mga Panghalip',
+                editGenderLabel: 'Kasarian',
+                appearanceTitle: 'Itsura',
+                darkModeLabel: 'Madilim na Mode',
+                languageTitle: 'Wika',
+                appLanguageLabel: 'Wika ng App',
+                helpTitle: 'Tulong at Suporta',
+                helpCenterLabel: 'Sentro ng Tulong',
+                contactSupportLabel: 'Makipag-ugnayan sa Suporta',
+                aboutTitle: 'Tungkol',
+                versionLabel: 'Bersyon',
+                privacyPolicyLabel: 'Patakaran sa Privacy',
+                termsLabel: 'Mga Tuntunin ng Serbisyo',
+                navHomeLabel: 'Bahay',
+                navAddLabel: 'Dagdagan',
+                navProfileLabel: 'Profile',
+                navSettingsLabel: 'Mga Setting',
+                purchaseModalTitle: 'Mag-isip Bago Bumili',
+                alternativeModalTitle: 'Mga Alternatibong Makatipid',
+                alternativeModalSubtitle: 'Nakakita kami ng mga katulad na item sa mas mababang presyo',
+                warningModalTitle: 'Babala sa Budget!',
+                warningModalText: 'Lumampas ka na sa iyong buwanang limit sa paggastos!',
+                warningModalSubtitle: 'Ang patuloy na paggastos nang labis ay maaaring bawasan ang iyong ipon at negatibong makaapekto sa iyong mga layunin sa pananalapi.',
+                warningNotificationText: 'Lumampas ka na sa iyong buwanang budget!',
+                helpCenterModalTitle: 'Sentro ng Tulong',
+                helpQuestion1: 'Paano ko itatakda ang aking budget?',
+                helpAnswer1: 'Pumunta sa setup screen o profile settings para itakda ang iyong buwanang limit sa paggastos. Maaari mo itong itakda nang mano-mano o hayaang magrekomenda ang app batay sa iyong kita.',
+                helpQuestion2: 'Paano ako magdagdag ng gastos?',
+                helpAnswer2: 'I-tap ang "+ Dagdagan" na button sa ibabang navigation, pumili ng kategorya, ilagay ang halaga, at i-save. Ang gastos ay maidaragdag sa iyong tracker.',
+                helpQuestion3: 'Ano ang mga alternatibong produkto?',
+                helpAnswer3: 'Kapag nag-click ka sa isang produkto sa "Para sa Iyo", nagpapakita kami ng mga mas murang alternatibo upang matulungan kang makatipid ng pera habang nakukuha pa rin ang iyong kailangan.',
+                helpQuestion4: 'Paano ko babaguhin ang aking profile picture?',
+                helpAnswer4: 'Pumunta sa iyong Profile screen at i-click ang iyong profile picture. Maaari kang mag-upload ng bagong larawan o gumamit ng default na avatar.'
+            },
+            ja: {
+                appTitle: 'SpendSmart',
+                setupTitle: 'SpendSmartへようこそ',
+                setupSubtitle: 'プロフィールと予算を設定して始めましょう',
+                nameLabel: 'フルネーム',
+                ageLabel: '年齢',
+                birthdayLabel: '誕生日',
+                jobLabel: '職業',
+                incomeLabel: '月収 (₱)',
+                spendingLimitLabel: '支出制限オプション',
+                manualLabel: '手動で設定',
+                autoLabel: '自動推奨',
+                manualLimitLabel: '月間支出制限 (₱)',
+                budgetTitle: '月間支出制限',
+                statusAllLabel: 'すべて',
+                statusToPayLabel: '支払い待ち',
+                statusToShipLabel: '発送待ち',
+                statusToReceiveLabel: '受取待ち',
+                statusRateLabel: '評価',
+                statusCancelledLabel: 'キャンセル',
+                categoriesTitle: '支出カテゴリー',
+                forYouTitle: 'おすすめ',
+                forYouSubtitle: 'あなたの好みと支出行動に基づいています',
+                addExpenseTitle: '支出を追加',
+                addExpenseSubtitle: '購入を記録して支出を追跡しましょう',
+                categoryLabel: 'カテゴリー',
+                foodOption: '飲食料品',
+                clothesOption: '衣類',
+                shoesOption: '靴',
+                electronicsOption: '電子機器',
+                transportOption: '交通費',
+                entertainmentOption: '娯楽',
+                otherOption: 'その他',
+                amountLabel: '金額 (₱)',
+                descriptionLabel: '説明',
+                ordersTitle: '注文履歴',
+                ordersSubtitle: 'すべての購入とその状況',
+                editProfileTitle: 'プロフィール編集',
+                editDisplayNameLabel: '表示名',
+                editUsernameLabel: 'ユーザー名',
+                editBioLabel: '自己紹介',
+                editPronounsLabel: '代名詞',
+                editGenderLabel: '性別',
+                appearanceTitle: '外観',
+                darkModeLabel: 'ダークモード',
+                languageTitle: '言語',
+                appLanguageLabel: 'アプリ言語',
+                helpTitle: 'ヘルプ＆サポート',
+                helpCenterLabel: 'ヘルプセンター',
+                contactSupportLabel: 'サポートに連絡',
+                aboutTitle: 'について',
+                versionLabel: 'バージョン',
+                privacyPolicyLabel: 'プライバシーポリシー',
+                termsLabel: '利用規約',
+                navHomeLabel: 'ホーム',
+                navAddLabel: '追加',
+                navProfileLabel: 'プロフィール',
+                navSettingsLabel: '設定',
+                purchaseModalTitle: '購入前に考えてください',
+                alternativeModalTitle: '予算に優しい代替品',
+                alternativeModalSubtitle: '類似した低価格の商品が見つかりました',
+                warningModalTitle: '予算警告！',
+                warningModalText: '月間支出制限を超えています！',
+                warningModalSubtitle: '支出を続けると貯蓄が減少し、財務目標に悪影響を与える可能性があります。',
+                warningNotificationText: '月間予算を超えています！',
+                helpCenterModalTitle: 'ヘルプセンター',
+                helpQuestion1: '予算の設定方法は？',
+                helpAnswer1: 'セットアップ画面またはプロフィール設定に移動して、月間支出制限を設定してください。手動で設定するか、収入に基づいてアプリが推奨することができます。',
+                helpQuestion2: '支出の追加方法は？',
+                helpAnswer2: '下部ナビゲーションの「+ 追加」ボタンをタップし、カテゴリーを選択して金額を入力し、保存してください。支出がトラッカーに追加されます。',
+                helpQuestion3: '代替品とは何ですか？',
+                helpAnswer3: '「おすすめ」で商品をクリックすると、必要なものを得ながらお金を節約できるよう、より安価な代替品を表示します。',
+                helpQuestion4: 'プロフィール写真の変更方法は？',
+                helpAnswer4: 'プロフィール画面に移動してプロフィール写真をクリックしてください。新しい画像をアップロードするか、デフォルトのアバターを使用できます。'
+            },
+            ko: {
+                appTitle: 'SpendSmart',
+                setupTitle: 'SpendSmart에 오신 것을 환영합니다',
+                setupSubtitle: '프로필과 예산을 설정하여 시작하세요',
+                nameLabel: '전체 이름',
+                ageLabel: '나이',
+                birthdayLabel: '생일',
+                jobLabel: '직업',
+                incomeLabel: '월 수입 (₱)',
+                spendingLimitLabel: '지출 한도 옵션',
+                manualLabel: '수동 설정',
+                autoLabel: '자동 추천',
+                manualLimitLabel: '월간 지출 한도 (₱)',
+                budgetTitle: '월간 지출 한도',
+                statusAllLabel: '모두',
+                statusToPayLabel: '결제 대기',
+                statusToShipLabel: '배송 대기',
+                statusToReceiveLabel: '수령 대기',
+                statusRateLabel: '평가',
+                statusCancelledLabel: '취소됨',
+                categoriesTitle: '지출 카테고리',
+                forYouTitle: '맞춤 추천',
+                forYouSubtitle: '선호도와 지출 행동을 기반으로 합니다',
+                addExpenseTitle: '지출 추가',
+                addExpenseSubtitle: '구매를 기록하여 지출을 추적하세요',
+                categoryLabel: '카테고리',
+                foodOption: '식음료',
+                clothesOption: '의류',
+                shoesOption: '신발',
+                electronicsOption: '전자제품',
+                transportOption: '교통',
+                entertainmentOption: '엔터테인먼트',
+                otherOption: '기타',
+                amountLabel: '금액 (₱)',
+                descriptionLabel: '설명',
+                ordersTitle: '주문 내역',
+                ordersSubtitle: '모든 구매 및 상태',
+                editProfileTitle: '프로필 수정',
+                editDisplayNameLabel: '표시 이름',
+                editUsernameLabel: '사용자 이름',
+                editBioLabel: '소개',
+                editPronounsLabel: '대명사',
+                editGenderLabel: '성별',
+                appearanceTitle: '외관',
+                darkModeLabel: '다크 모드',
+                languageTitle: '언어',
+                appLanguageLabel: '앱 언어',
+                helpTitle: '도움말 및 지원',
+                helpCenterLabel: '도움말 센터',
+                contactSupportLabel: '고객 지원 연락',
+                aboutTitle: '정보',
+                versionLabel: '버전',
+                privacyPolicyLabel: '개인정보 처리방침',
+                termsLabel: '서비스 약관',
+                navHomeLabel: '홈',
+                navAddLabel: '추가',
+                navProfileLabel: '프로필',
+                navSettingsLabel: '설정',
+                purchaseModalTitle: '구매 전에 생각해보세요',
+                alternativeModalTitle: '예산 친화적 대안',
+                alternativeModalSubtitle: '더 저렴한 유사품을 찾았습니다',
+                warningModalTitle: '예산 경고!',
+                warningModalText: '월간 지출 한도를 초과했습니다!',
+                warningModalSubtitle: '지출을 계속하면 저축이 감소하고 재정 목표에 부정적인 영향을 미칠 수 있습니다.',
+                warningNotificationText: '월간 예산을 초과했습니다!',
+                helpCenterModalTitle: '도움말 센터',
+                helpQuestion1: '예산을 어떻게 설정하나요?',
+                helpAnswer1: '설정 화면 또는 프로필 설정으로 이동하여 월간 지출 한도를 설정하세요. 수동으로 설정하거나 수입을 기반으로 앱이 추천하도록 할 수 있습니다.',
+                helpQuestion2: '지출을 어떻게 추가하나요?',
+                helpAnswer2: '하단 탐색의 "+ 추가" 버튼을 탭하고, 카테고리를 선택하고, 금액을 입력하고, 저장하세요. 지출이 트래커에 추가됩니다.',
+                helpQuestion3: '대체 상품이 무엇인가요?',
+                helpAnswer3: '"맞춤 추천"에서 제품을 클릭하면 필요한 것을 얻으면서 돈을 절약할 수 있도록 더 저렴한 대안을 보여줍니다.',
+                helpQuestion4: '프로필 사진을 어떻게 변경하나요?',
+                helpAnswer4: '프로필 화면으로 이동하여 프로필 사진을 클릭하세요. 새 이미지를 업로드하거나 기본 아바타를 사용할 수 있습니다.'
+            }
         };
         
         // Initialize the app
         function initApp() {
+            // Check for saved dark mode preference
+            const savedDarkMode = localStorage.getItem('spendsmartDarkMode') === 'true';
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+                appState.isDarkMode = true;
+            }
+            
+            // Check for saved language preference
+            const savedLanguage = localStorage.getItem('spendsmartLanguage') || 'en';
+            appState.currentLanguage = savedLanguage;
+            languageSelect.value = savedLanguage;
+            
             updateBudgetDisplay();
             renderCategories();
             renderForYouItems();
             setupEventListeners();
             updateOrderDisplay();
+            updateTranslations();
+            
+            // Load saved profile if exists
+            const savedProfile = localStorage.getItem('spendsmartProfile');
+            if (savedProfile) {
+                appState.user = JSON.parse(savedProfile);
+                updateProfileDisplay();
+            }
+        }
+        
+        // Update all text with current language
+        function updateTranslations() {
+            const lang = appState.currentLanguage;
+            const t = translations[lang];
+            
+            // Update all elements with translations
+            document.querySelectorAll('[id]').forEach(element => {
+                const id = element.id;
+                if (t[id]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = t[id];
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = t[id];
+                    } else {
+                        element.textContent = t[id];
+                    }
+                }
+            });
         }
         
         // Update budget display
@@ -1258,10 +2146,8 @@
             progressFill.style.width = `${percentage}%`;
             progressPercentage.textContent = `${percentage.toFixed(0)}%`;
             
-            // Update category breakdown in progress bar
             updateCategoryBreakdown();
             
-            // Check if budget is exceeded
             if (appState.spent > appState.budget && !appState.isBudgetExceeded) {
                 appState.isBudgetExceeded = true;
                 showBudgetWarning();
@@ -1270,7 +2156,6 @@
         
         // Update category breakdown in progress bar
         function updateCategoryBreakdown() {
-            // Clear previous markers
             progressFill.innerHTML = '';
             categoryBreakdown.innerHTML = '';
             
@@ -1280,14 +2165,12 @@
                 if (category.spent > 0) {
                     const categoryPercentage = (category.spent / appState.budget) * 100;
                     
-                    // Add marker to progress bar
                     const marker = document.createElement('div');
                     marker.className = 'progress-category-marker';
                     marker.style.left = `${cumulativePercentage}%`;
                     marker.style.backgroundColor = category.color;
                     progressFill.appendChild(marker);
                     
-                    // Add to category breakdown
                     const breakdownItem = document.createElement('div');
                     breakdownItem.className = 'category-breakdown-item';
                     breakdownItem.innerHTML = `
@@ -1310,7 +2193,6 @@
                 categoryElement.className = 'category-item';
                 categoryElement.dataset.category = category.id;
                 
-                // Calculate percentage for this category
                 const categoryPercentage = category.spent > 0 ? (category.spent / appState.budget * 100).toFixed(1) : 0;
                 
                 categoryElement.innerHTML = `
@@ -1332,13 +2214,12 @@
                 itemElement.className = 'for-you-item';
                 itemElement.dataset.itemId = item.id;
                 
-                // Find the cheapest alternative
                 const cheapestAlt = item.alternatives.reduce((min, alt) => alt.price < min.price ? alt : min, item.alternatives[0]);
                 const savings = item.price - cheapestAlt.price;
                 
                 itemElement.innerHTML = `
                     <div class="item-image">
-                        <i class="fas ${item.icon}" style="color: #fbbc05;"></i>
+                        <i class="fas ${item.icon}" style="color: ${appState.isDarkMode ? '#f39c12' : '#fbbc05'};"></i>
                     </div>
                     <div class="item-name">${item.name}</div>
                     <div class="item-price">₱${item.price.toLocaleString()}</div>
@@ -1359,7 +2240,6 @@
         function updateOrderDisplay() {
             orderList.innerHTML = '';
             
-            // Filter orders based on current filter
             let filteredOrders = appState.orders;
             let statusText = 'All your purchases and their status';
             
@@ -1383,7 +2263,7 @@
             ordersSubtitle.textContent = statusText;
             
             if (filteredOrders.length === 0) {
-                orderList.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No orders found in this category.</p>';
+                orderList.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No orders found in this category.</p>';
                 return;
             }
             
@@ -1391,7 +2271,6 @@
                 const orderElement = document.createElement('div');
                 orderElement.className = 'order-item';
                 
-                // Status badge
                 let statusClass = '';
                 let statusText = '';
                 
@@ -1425,11 +2304,90 @@
                         <div class="order-price">₱${order.price.toLocaleString()}</div>
                         <div class="order-date">${order.date}</div>
                     </div>
-                    <i class="fas fa-chevron-right" style="color: #999;"></i>
+                    <i class="fas fa-chevron-right" style="color: var(--text-light);"></i>
                 `;
                 
                 orderList.appendChild(orderElement);
             });
+        }
+        
+        // Update profile display
+        function updateProfileDisplay() {
+            const user = appState.user;
+            
+            profileDisplayName.textContent = user.displayName || user.name || 'User Name';
+            profileUsername.textContent = user.username ? `@${user.username}` : '@username';
+            profileBio.textContent = user.bio || 'No bio yet. Add something about yourself!';
+            
+            // Format pronouns for display
+            let pronounsDisplay = '';
+            switch(user.pronouns) {
+                case 'they/them': pronounsDisplay = 'They/Them'; break;
+                case 'he/him': pronounsDisplay = 'He/Him'; break;
+                case 'she/her': pronounsDisplay = 'She/Her'; break;
+                case 'other': pronounsDisplay = 'Other'; break;
+                case 'prefer-not-to-say': pronounsDisplay = 'Prefer not to say'; break;
+                default: pronounsDisplay = 'They/Them';
+            }
+            profilePronouns.textContent = pronounsDisplay;
+            
+            // Format gender for display
+            let genderDisplay = '';
+            switch(user.gender) {
+                case 'male': genderDisplay = 'Male'; break;
+                case 'female': genderDisplay = 'Female'; break;
+                case 'non-binary': genderDisplay = 'Non-binary'; break;
+                case 'other': genderDisplay = 'Other'; break;
+                case 'prefer-not-to-say': genderDisplay = 'Prefer not to say'; break;
+                default: genderDisplay = 'Not specified';
+            }
+            profileGender.textContent = genderDisplay;
+            
+            // Update edit form
+            editDisplayName.value = user.displayName || user.name || '';
+            editUsername.value = user.username || '';
+            editBio.value = user.bio || '';
+            editPronouns.value = user.pronouns || 'they/them';
+            editGender.value = user.gender || 'not-specified';
+            
+            // Update small profile picture
+            updateSmallProfilePicture();
+        }
+        
+        // Update small profile picture
+        function updateSmallProfilePicture() {
+            const user = appState.user;
+            
+            if (user.profilePicture) {
+                userProfile.innerHTML = `<img src="${user.profilePicture}" alt="Profile">`;
+            } else if (user.name) {
+                const userInitial = user.name.charAt(0).toUpperCase();
+                userProfile.innerHTML = `
+                    <div class="profile-placeholder">
+                        ${userInitial}
+                    </div>
+                `;
+            }
+            
+            // Update large profile picture
+            if (user.profilePicture) {
+                profilePictureLarge.innerHTML = `
+                    <img src="${user.profilePicture}" alt="Profile">
+                    <div class="profile-picture-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                `;
+            } else if (user.name) {
+                const userInitial = user.name.charAt(0).toUpperCase();
+                profilePictureLarge.innerHTML = `
+                    <div class="profile-placeholder profile-placeholder-large">
+                        ${userInitial}
+                    </div>
+                    <div class="profile-picture-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                `;
+            }
         }
         
         // Show purchase modal with alternatives
@@ -1438,8 +2396,6 @@
             appState.selectedAlternative = null;
             
             const modalQuestion = document.getElementById('modalQuestion');
-            
-            // Random reflective questions
             const questions = [
                 "Do you really need this item?",
                 "Is this important to you?",
@@ -1449,10 +2405,8 @@
             
             modalQuestion.textContent = questions[Math.floor(Math.random() * questions.length)];
             
-            // Show alternative products
             alternativeProducts.innerHTML = '';
             
-            // Add "view all alternatives" option
             const viewAllOption = document.createElement('div');
             viewAllOption.className = 'alternative-product';
             viewAllOption.innerHTML = `
@@ -1471,7 +2425,6 @@
             });
             alternativeProducts.appendChild(viewAllOption);
             
-            // Show top 2 alternatives
             item.alternatives.slice(0, 2).forEach(alternative => {
                 const alternativeElement = document.createElement('div');
                 alternativeElement.className = 'alternative-product';
@@ -1486,17 +2439,14 @@
                         <div class="alternative-price">₱${alternative.price.toLocaleString()}
                             <span class="original-price">₱${item.price.toLocaleString()}</span>
                         </div>
-                        <div style="font-size: 12px; color: #34a853;">Save ₱${alternative.savings.toLocaleString()}</div>
+                        <div style="font-size: 12px; color: var(--primary-color);">Save ₱${alternative.savings.toLocaleString()}</div>
                     </div>
                 `;
                 
                 alternativeElement.addEventListener('click', () => {
-                    // Remove selection from all alternatives
                     document.querySelectorAll('.alternative-product').forEach(el => {
                         el.classList.remove('selected');
                     });
-                    
-                    // Select this alternative
                     alternativeElement.classList.add('selected');
                     appState.selectedAlternative = alternative;
                 });
@@ -1525,17 +2475,14 @@
                         <div class="alternative-price">₱${alternative.price.toLocaleString()}
                             <span class="original-price">₱${item.price.toLocaleString()}</span>
                         </div>
-                        <div style="font-size: 12px; color: #34a853;">Save ₱${alternative.savings.toLocaleString()}</div>
+                        <div style="font-size: 12px; color: var(--primary-color);">Save ₱${alternative.savings.toLocaleString()}</div>
                     </div>
                 `;
                 
                 alternativeElement.addEventListener('click', () => {
-                    // Remove selection from all alternatives
                     document.querySelectorAll('.alternative-product').forEach(el => {
                         el.classList.remove('selected');
                     });
-                    
-                    // Select this alternative
                     alternativeElement.classList.add('selected');
                     appState.selectedAlternative = alternative;
                 });
@@ -1551,7 +2498,6 @@
             warningModal.classList.add('active');
             warningNotification.classList.add('show');
             
-            // Auto hide notification after 5 seconds
             setTimeout(() => {
                 warningNotification.classList.remove('show');
             }, 5000);
@@ -1559,7 +2505,6 @@
         
         // Add expense
         function addExpense(category, amount, description) {
-            // Find category and update spent amount
             const categoryObj = appState.categories.find(cat => cat.id === category);
             if (categoryObj) {
                 categoryObj.spent += amount;
@@ -1568,18 +2513,35 @@
                 updateBudgetDisplay();
                 renderCategories();
                 
-                // Show success message
                 alert(`Expense of ₱${amount.toLocaleString()} added to ${categoryObj.name}`);
             }
         }
         
         // Set default profile picture
         function setDefaultProfilePicture() {
-            userProfile.innerHTML = `
-                <div class="profile-placeholder">
-                    <i class="fas fa-user"></i>
-                </div>
-            `;
+            appState.user.profilePicture = null;
+            localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
+            updateSmallProfilePicture();
+        }
+        
+        // Toggle dark mode
+        function toggleDarkMode(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                appState.isDarkMode = true;
+                localStorage.setItem('spendsmartDarkMode', 'true');
+            } else {
+                document.body.classList.remove('dark-mode');
+                appState.isDarkMode = false;
+                localStorage.setItem('spendsmartDarkMode', 'false');
+            }
+        }
+        
+        // Change language
+        function changeLanguage(lang) {
+            appState.currentLanguage = lang;
+            localStorage.setItem('spendsmartLanguage', lang);
+            updateTranslations();
         }
         
         // Setup event listeners
@@ -1610,7 +2572,10 @@
                 
                 // Set user data
                 appState.user = {
+                    ...appState.user,
                     name: userName,
+                    displayName: userName,
+                    username: userName.toLowerCase().replace(/\s+/g, ''),
                     age: userAge,
                     birthday: document.getElementById('userBirthday').value,
                     job: document.getElementById('userJob').value,
@@ -1624,48 +2589,40 @@
                         appState.budget = parseInt(manualLimit);
                     }
                 } else {
-                    // Auto-calculate budget (70% of income as an example)
                     appState.budget = Math.round(parseInt(userIncome) * 0.7);
                 }
                 
-                // Start with 0 spent (fixed issue #2)
                 appState.spent = 0;
-                
-                // Reset all category spending to 0
                 appState.categories.forEach(category => {
                     category.spent = 0;
                 });
+                
+                // Save profile
+                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
                 
                 // Update UI
                 setupScreen.classList.remove('active');
                 dashboard.classList.add('active');
                 updateBudgetDisplay();
-                
-                // Update user profile with initial
-                if (userName) {
-                    // Update profile placeholder with user's initial
-                    const userInitial = userName.charAt(0).toUpperCase();
-                    userProfile.innerHTML = `
-                        <div class="profile-placeholder">
-                            ${userInitial}
-                        </div>
-                    `;
-                }
+                updateProfileDisplay();
             });
             
             // Search functionality
             searchInput.addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase();
-                
                 if (searchTerm.length > 0) {
-                    // In a real app, this would search products/categories
                     console.log(`Searching for: ${searchTerm}`);
-                    // You could filter the "For You" items based on search
                 }
             });
             
             // User profile click - show upload panel
             userProfile.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileUpload.classList.toggle('active');
+            });
+            
+            // Large profile picture click
+            profilePictureLarge.addEventListener('click', (e) => {
                 e.stopPropagation();
                 profileUpload.classList.toggle('active');
             });
@@ -1676,17 +2633,10 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        const img = document.createElement('img');
-                        img.src = event.target.result;
-                        img.alt = 'Profile Picture';
-                        
-                        // Clear profile container and add new image
-                        userProfile.innerHTML = '';
-                        userProfile.appendChild(img);
-                        
-                        // Hide upload panel
+                        appState.user.profilePicture = event.target.result;
+                        localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
+                        updateSmallProfilePicture();
                         profileUpload.classList.remove('active');
-                        
                         alert('Profile picture updated successfully!');
                     };
                     reader.readAsDataURL(file);
@@ -1702,9 +2652,34 @@
             
             // Close profile upload when clicking outside
             document.addEventListener('click', (e) => {
-                if (!userProfile.contains(e.target) && !profileUpload.contains(e.target)) {
+                if (!userProfile.contains(e.target) && !profilePictureLarge.contains(e.target) && !profileUpload.contains(e.target)) {
                     profileUpload.classList.remove('active');
                 }
+            });
+            
+            // Save profile
+            saveProfileBtn.addEventListener('click', () => {
+                appState.user.displayName = editDisplayName.value || appState.user.name;
+                appState.user.username = editUsername.value;
+                appState.user.bio = editBio.value;
+                appState.user.pronouns = editPronouns.value;
+                appState.user.gender = editGender.value;
+                
+                localStorage.setItem('spendsmartProfile', JSON.stringify(appState.user));
+                updateProfileDisplay();
+                
+                alert('Profile updated successfully!');
+            });
+            
+            // Dark mode toggle
+            darkModeToggle.addEventListener('change', (e) => {
+                toggleDarkMode(e.target.checked);
+                renderForYouItems(); // Re-render to update colors
+            });
+            
+            // Language select
+            languageSelect.addEventListener('change', (e) => {
+                changeLanguage(e.target.value);
             });
             
             // Category clicks
@@ -1712,15 +2687,10 @@
                 const categoryItem = e.target.closest('.category-item');
                 if (categoryItem) {
                     const categoryId = categoryItem.dataset.category;
-                    const category = appState.categories.find(cat => cat.id === categoryId);
-                    
-                    // Navigate to expense form with category pre-selected
                     dashboard.classList.remove('active');
                     expenseForm.classList.add('active');
                     expenseForm.classList.remove('setup-screen');
                     expenseCategory.value = categoryId;
-                    
-                    // Update nav
                     navHome.classList.remove('active');
                     navAdd.classList.add('active');
                 }
@@ -1742,12 +2712,10 @@
                 const alternativeElement = e.target.closest('.item-alternative');
                 
                 if (alternativeElement) {
-                    // Clicked on alternative link
                     const itemId = parseInt(alternativeElement.dataset.itemId);
                     const item = appState.forYouItems.find(i => i.id === itemId);
                     showAlternativeModal(item);
                 } else if (itemElement) {
-                    // Clicked on item
                     const itemId = parseInt(itemElement.dataset.itemId);
                     const item = appState.forYouItems.find(i => i.id === itemId);
                     showPurchaseModal(item);
@@ -1819,50 +2787,69 @@
             
             // Navigation
             navHome.addEventListener('click', () => {
-                dashboard.classList.add('active');
-                expenseForm.classList.remove('active');
-                ordersScreen.classList.remove('active');
-                setupScreen.classList.remove('active');
-                
-                navHome.classList.add('active');
-                navAdd.classList.remove('active');
-                navOrders.classList.remove('active');
-                navSettings.classList.remove('active');
+                showScreen('dashboard');
+                setActiveNav('home');
             });
             
             navAdd.addEventListener('click', () => {
-                dashboard.classList.remove('active');
-                expenseForm.classList.add('active');
-                ordersScreen.classList.remove('active');
-                setupScreen.classList.remove('active');
-                
-                navHome.classList.remove('active');
-                navAdd.classList.add('active');
-                navOrders.classList.remove('active');
-                navSettings.classList.remove('active');
+                showScreen('expenseForm');
+                setActiveNav('add');
             });
             
-            navOrders.addEventListener('click', () => {
-                dashboard.classList.remove('active');
-                expenseForm.classList.remove('active');
-                ordersScreen.classList.add('active');
-                setupScreen.classList.remove('active');
-                
-                navHome.classList.remove('active');
-                navAdd.classList.remove('active');
-                navOrders.classList.add('active');
-                navSettings.classList.remove('active');
-                
-                // Update order display with current filter
-                updateOrderDisplay();
+            navProfile.addEventListener('click', () => {
+                showScreen('profileScreen');
+                setActiveNav('profile');
             });
             
             navSettings.addEventListener('click', () => {
-                alert('Settings page would allow you to adjust preferences');
-                navHome.classList.remove('active');
-                navAdd.classList.remove('active');
-                navOrders.classList.remove('active');
-                navSettings.classList.add('active');
+                showScreen('settingsScreen');
+                setActiveNav('settings');
+            });
+            
+            // Show specific screen
+            function showScreen(screenName) {
+                [setupScreen, dashboard, expenseForm, ordersScreen, profileScreen, settingsScreen].forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                
+                if (screenName === 'dashboard') dashboard.classList.add('active');
+                if (screenName === 'expenseForm') expenseForm.classList.add('active');
+                if (screenName === 'profileScreen') profileScreen.classList.add('active');
+                if (screenName === 'settingsScreen') settingsScreen.classList.add('active');
+            }
+            
+            // Set active navigation
+            function setActiveNav(navItem) {
+                [navHome, navAdd, navProfile, navSettings].forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                if (navItem === 'home') navHome.classList.add('active');
+                if (navItem === 'add') navAdd.classList.add('active');
+                if (navItem === 'profile') navProfile.classList.add('active');
+                if (navItem === 'settings') navSettings.classList.add('active');
+            }
+            
+            // Help center
+            helpCenterBtn.addEventListener('click', () => {
+                helpCenterModal.classList.add('active');
+            });
+            
+            closeHelpCenterBtn.addEventListener('click', () => {
+                helpCenterModal.classList.remove('active');
+            });
+            
+            // Other settings buttons
+            contactSupportBtn.addEventListener('click', () => {
+                alert('Contact support: support@spendsmart.com');
+            });
+            
+            privacyPolicyBtn.addEventListener('click', () => {
+                alert('Privacy policy would be displayed here');
+            });
+            
+            termsBtn.addEventListener('click', () => {
+                alert('Terms of service would be displayed here');
             });
             
             // Expense form
@@ -1878,24 +2865,18 @@
                 
                 addExpense(category, amount, description);
                 
-                // Reset form and go back to dashboard
                 expenseAmount.value = '';
                 expenseDescription.value = '';
                 
-                dashboard.classList.add('active');
-                expenseForm.classList.remove('active');
-                navHome.classList.add('active');
-                navAdd.classList.remove('active');
+                showScreen('dashboard');
+                setActiveNav('home');
             });
             
             cancelExpenseBtn.addEventListener('click', () => {
                 expenseAmount.value = '';
                 expenseDescription.value = '';
-                
-                dashboard.classList.add('active');
-                expenseForm.classList.remove('active');
-                navHome.classList.add('active');
-                navAdd.classList.remove('active');
+                showScreen('dashboard');
+                setActiveNav('home');
             });
             
             // Purchase modal
@@ -1907,11 +2888,9 @@
             confirmPurchaseBtn.addEventListener('click', () => {
                 purchaseModal.classList.remove('active');
                 
-                // Use alternative if selected, otherwise use original
                 const purchasePrice = appState.selectedAlternative ? appState.selectedAlternative.price : appState.selectedItem.price;
                 const purchaseName = appState.selectedAlternative ? appState.selectedAlternative.name : appState.selectedItem.name;
                 
-                // Add the purchase as an expense
                 addExpense(appState.selectedItem.category, purchasePrice, purchaseName);
                 
                 alert(`You purchased ${purchaseName} for ₱${purchasePrice.toLocaleString()}`);
@@ -1926,7 +2905,6 @@
                 
                 alternativeModal.classList.remove('active');
                 
-                // Add the alternative purchase as an expense
                 addExpense(appState.selectedItem.category, appState.selectedAlternative.price, appState.selectedAlternative.name);
                 
                 alert(`You purchased ${appState.selectedAlternative.name} for ₱${appState.selectedAlternative.price.toLocaleString()} (Saved ₱${(appState.selectedItem.price - appState.selectedAlternative.price).toLocaleString()}!)`);
@@ -1948,6 +2926,7 @@
                     purchaseModal.classList.remove('active');
                     alternativeModal.classList.remove('active');
                     warningModal.classList.remove('active');
+                    helpCenterModal.classList.remove('active');
                 }
             });
         }
