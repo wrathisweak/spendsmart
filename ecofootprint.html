@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoFootprint - Carbon Tracker & Education Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --dark-color: #229954;
+            --light-color: #f9fbf5;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #f9fbf5;
+            --card-bg: white;
+            --border-color: #eee;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --low-impact: #2ecc71;
+            --moderate-impact: #f39c12;
+            --high-impact: #e74c3c;
+            --transport-color: #3498db;
+            --food-color: #e67e22;
+            --shopping-color: #9b59b6;
+            --energy-color: #f1c40f;
+            --housing-color: #e74c3c;
+            --other-color: #95a5a6;
+            --chart-1: #3498db;
+            --chart-2: #2ecc71;
+            --chart-3: #e74c3c;
+            --chart-4: #f39c12;
+            --chart-5: #9b59b6;
+            --insight-bg: #f8f9fa;
+            --education-bg: #e8f4ff;
+            --alert-bg: #ffeaa7;
+        }
+        
+        body.dark-mode {
+            --primary-gradient: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            --primary-color: #27ae60;
+            --secondary-color: #229954;
+            --dark-color: #1e8449;
+            --light-color: #1a1a1a;
+            --text-color: #f5f5f5;
+            --text-light: #aaa;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            --low-impact: #27ae60;
+            --moderate-impact: #d68910;
+            --high-impact: #c0392b;
+            --transport-color: #2980b9;
+            --food-color: #d35400;
+            --shopping-color: #8e44ad;
+            --energy-color: #f39c12;
+            --housing-color: #c0392b;
+            --other-color: #7f8c8d;
+            --chart-1: #2980b9;
+            --chart-2: #27ae60;
+            --chart-3: #c0392b;
+            --chart-4: #d68910;
+            --chart-5: #8e44ad;
+            --insight-bg: #2c3e50;
+            --education-bg: #1a5276;
+            --alert-bg: #f39c12;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            padding-bottom: 80px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .main-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: var(--dark-color);
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .period-selector {
+            display: flex;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 5px;
+        }
+        
+        .period-option {
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .period-option.active {
+            background: white;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 20px;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        /* Carbon Score Card */
+        .carbon-score-card {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carbon-score-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .carbon-score-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .score-main {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .score-value {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .score-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .score-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .impact-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .impact-label {
+            font-size: 14px;
+            margin-right: 15px;
+        }
+        
+        /* Category Breakdown */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .category-item {
+            background: var(--bg-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-item.active {
+            border-color: var(--primary-color);
+        }
+        
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin: 0 auto 15px;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .category-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .category-percentage {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        /* Impact Chart */
+        .chart-container {
+            height: 200px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .chart-bar {
+            display: flex;
+            align-items: flex-end;
+            height: 100%;
+            gap: 15px;
+            padding: 0 10px;
+        }
+        
+        .bar-item {
+            flex: 1;
+            background: var(--primary-color);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+            min-height: 10px;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        /* Insights Section */
+        .insights-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .insight-card {
+            background: var(--insight-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .insight-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .insight-content {
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+        
+        .insight-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+        
+        /* Educational Cards */
+        .education-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .education-card {
+            background: var(--education-bg);
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .education-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .education-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .education-content {
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Alerts */
+        .alert-container {
+            margin-top: 30px;
+        }
+        
+        .alert-card {
+            background: var(--alert-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid var(--moderate-impact);
+        }
+        
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--moderate-impact);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .alert-message {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin-top: 30px;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+        
+        .timeline-date {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        /* Recommendations */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .recommendation-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+        }
+        
+        .recommendation-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .recommendation-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin: 0 auto 20px;
+        }
+        
+        .recommendation-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(46, 204, 113, 0.05);
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .nav-item span {
+            font-size: 12px;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+        
+        /* Add Habit Form */
+        .habit-form {
+            background: var(--bg-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .app-container {
+                padding: 15px;
+            }
+            
+            .grid-container {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .header-controls {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal {
+                padding: 25px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .education-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dashboard-card {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">EF</div>
+                <div class="logo-text">
+                    <h1>EcoFootprint</h1>
+                    <p>Track • Learn • Reduce</p>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <div class="period-selector">
+                    <div class="period-option active" data-period="weekly">Weekly</div>
+                    <div class="period-option" data-period="monthly">Monthly</div>
+                    <div class="period-option" data-period="yearly">Yearly</div>
+                </div>
+                
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content Grid -->
+        <div class="main-content">
+            <!-- Carbon Score Card -->
+            <div class="dashboard-card carbon-score-card">
+                <div class="card-header">
+                    <h2 class="card-title">Your Carbon Footprint</h2>
+                    <div class="score-indicator">
+                        <div class="impact-label">Impact Level:</div>
+                        <span class="impact-dot" style="background: var(--low-impact);"></span>
+                        <span>Low</span>
+                        <span class="impact-dot" style="background: var(--moderate-impact); margin-left: 10px;"></span>
+                        <span>Moderate</span>
+                        <span class="impact-dot" style="background: var(--high-impact); margin-left: 10px;"></span>
+                        <span>High</span>
+                    </div>
+                </div>
+                
+                <div class="score-main">
+                    <div class="score-value" id="carbonScore">3.2</div>
+                    <div class="score-label">Tons CO₂ per year</div>
+                </div>
+                
+                <div style="text-align: center; position: relative; z-index: 1;">
+                    <div style="font-size: 14px; margin-bottom: 10px;">Compared to last month: <span style="color: #2ecc71; font-weight: 600;">▼ 12%</span></div>
+                    <div style="font-size: 14px;">Global Average: 4.8 tons</div>
+                </div>
+            </div>
+            
+            <!-- Category Breakdown -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Impact Breakdown</h2>
+                    <div style="color: var(--text-light); font-size: 14px;">Click categories for details</div>
+                </div>
+                
+                <div class="category-grid" id="categoryGrid">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-bar" id="impactChart">
+                        <!-- Chart bars will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Insights & Analysis -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Smart Insights</h2>
+                    <button class="btn" id="refreshInsights">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+                
+                <div class="insights-container" id="insightsContainer">
+                    <!-- Insights will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Educational Content -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Learn & Improve</h2>
+                    <div style="color: var(--text-light); font-size: 14px;">How your choices impact the planet</div>
+                </div>
+                
+                <div class="education-cards" id="educationCards">
+                    <!-- Education cards will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Alerts & Nudges -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Smart Alerts</h2>
+                    <div class="notification-badge" style="background: var(--high-impact); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;" id="alertCount">3</div>
+                </div>
+                
+                <div class="alert-container" id="alertContainer">
+                    <!-- Alerts will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Personalized Recommendations</h2>
+                    <button class="btn" id="addHabitBtn">
+                        <i class="fas fa-plus"></i>
+                        Add Habit
+                    </button>
+                </div>
+                
+                <div class="recommendations-grid" id="recommendationsGrid">
+                    <!-- Recommendations will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Timeline & History -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Your Sustainability Journey</h2>
+                    <div style="color: var(--text-light); font-size: 14px;">Track your progress over time</div>
+                </div>
+                
+                <div class="timeline" id="timeline">
+                    <!-- Timeline items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="navDashboard">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </div>
+        <div class="nav-item" id="navInsights">
+            <i class="fas fa-chart-bar"></i>
+            <span>Insights</span>
+        </div>
+        <div class="nav-item" id="navLearn">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Learn</span>
+        </div>
+        <div class="nav-item" id="navGoals">
+            <i class="fas fa-bullseye"></i>
+            <span>Goals</span>
+        </div>
+        <div class="nav-item" id="navBackToSpendSmart">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to SpendSmart</span>
+        </div>
+    </div>
+    
+    <!-- Add Habit Modal -->
+    <div class="modal-overlay" id="habitModal">
+        <div class="modal">
+            <h3 class="modal-title">Track New Sustainable Habit</h3>
+            
+            <div class="form-group">
+                <label for="habitName">Habit Name</label>
+                <input type="text" id="habitName" class="form-control" placeholder="e.g., Bring reusable bag">
+            </div>
+            
+            <div class="form-group">
+                <label for="habitCategory">Category</label>
+                <select id="habitCategory" class="form-control">
+                    <option value="shopping">Shopping</option>
+                    <option value="transport">Transportation</option>
+                    <option value="food">Food</option>
+                    <option value="energy">Energy</option>
+                    <option value="waste">Waste Reduction</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="habitFrequency">How often?</label>
+                <select id="habitFrequency" class="form-control">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="habitImpact">Estimated Impact (kg CO₂ saved)</label>
+                <input type="number" id="habitImpact" class="form-control" placeholder="e.g., 5">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeHabitModal">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+                <button class="btn" id="saveHabit">
+                    <i class="fas fa-save"></i>
+                    Save Habit
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Education Detail Modal -->
+    <div class="modal-overlay" id="educationModal">
+        <div class="modal">
+            <h3 class="modal-title" id="educationModalTitle">Education Title</h3>
+            <div id="educationModalContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="closeEducationModal">
+                    <i class="fas fa-check"></i>
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        const appState = {
+            user: {
+                name: "Eco User",
+                avatar: null,
+                carbonScore: 3.2,
+                lastMonthScore: 3.6,
+                globalAverage: 4.8
+            },
+            
+            categories: {
+                transport: {
+                    name: "Transport",
+                    value: 1.2,
+                    percentage: 38,
+                    color: "--transport-color",
+                    icon: "fas fa-car",
+                    description: "Daily commuting, flights, and vehicle usage"
+                },
+                food: {
+                    name: "Food",
+                    value: 0.8,
+                    percentage: 25,
+                    color: "--food-color",
+                    icon: "fas fa-utensils",
+                    description: "Diet choices, food waste, and sourcing"
+                },
+                shopping: {
+                    name: "Shopping",
+                    value: 0.6,
+                    percentage: 19,
+                    color: "--shopping-color",
+                    icon: "fas fa-shopping-bag",
+                    description: "Clothing, electronics, and consumer goods"
+                },
+                energy: {
+                    name: "Energy",
+                    value: 0.4,
+                    percentage: 12,
+                    color: "--energy-color",
+                    icon: "fas fa-bolt",
+                    description: "Electricity, heating, and home energy use"
+                },
+                housing: {
+                    name: "Housing",
+                    value: 0.2,
+                    percentage: 6,
+                    color: "--housing-color",
+                    icon: "fas fa-home",
+                    description: "Home maintenance and construction materials"
+                }
+            },
+            
+            insights: [
+                {
+                    id: 1,
+                    title: "Transportation Impact",
+                    content: "Your transportation carbon footprint is 20% lower than last month. Great job using public transport more frequently!",
+                    icon: "fas fa-bus",
+                    color: "--transport-color",
+                    date: "Today",
+                    impact: "positive"
+                },
+                {
+                    id: 2,
+                    title: "Shopping Habits",
+                    content: "Clothing purchases increased your footprint by 15% this week. Consider sustainable brands or second-hand options.",
+                    icon: "fas fa-tshirt",
+                    color: "--shopping-color",
+                    date: "2 days ago",
+                    impact: "warning"
+                },
+                {
+                    id: 3,
+                    title: "Energy Efficiency",
+                    content: "Your weekend energy usage was 30% higher than usual. Remember to turn off appliances when not in use.",
+                    icon: "fas fa-lightbulb",
+                    color: "--energy-color",
+                    date: "3 days ago",
+                    impact: "negative"
+                },
+                {
+                    id: 4,
+                    title: "Food Choices",
+                    content: "Plant-based meals helped reduce your food footprint by 25%. Keep up the good work!",
+                    icon: "fas fa-leaf",
+                    color: "--food-color",
+                    date: "1 week ago",
+                    impact: "positive"
+                }
+            ],
+            
+            education: [
+                {
+                    id: 1,
+                    title: "How Fast Fashion Pollutes",
+                    content: "The fashion industry produces 10% of global carbon emissions. Each clothing item has a hidden environmental cost.",
+                    detail: "Fast fashion contributes to water pollution, textile waste, and greenhouse gas emissions. A single cotton t-shirt requires 2,700 liters of water to produce. By choosing quality over quantity and supporting sustainable brands, you can significantly reduce your fashion footprint.",
+                    icon: "fas fa-tshirt",
+                    category: "shopping",
+                    color: "--shopping-color"
+                },
+                {
+                    id: 2,
+                    title: "The True Cost of Food",
+                    content: "Food production accounts for 26% of global greenhouse gas emissions. Your diet choices matter more than you think.",
+                    detail: "Animal agriculture is responsible for 14.5% of global emissions. Choosing plant-based options even once a week can make a significant difference. Local and seasonal produce also reduces transportation emissions.",
+                    icon: "fas fa-carrot",
+                    category: "food",
+                    color: "--food-color"
+                },
+                {
+                    id: 3,
+                    title: "Transportation Impact",
+                    content: "Private vehicles produce 75% of transport emissions. Every kilometer counts in reducing your carbon footprint.",
+                    detail: "A single car commute produces 4.6 metric tons of CO₂ annually. Public transportation reduces this by 45%, while cycling or walking eliminates it entirely. Consider carpooling or using electric vehicles for necessary trips.",
+                    icon: "fas fa-bicycle",
+                    category: "transport",
+                    color: "--transport-color"
+                },
+                {
+                    id: 4,
+                    title: "Energy Waste at Home",
+                    content: "Household energy waste contributes to 20% of your carbon footprint. Small changes add up to big savings.",
+                    detail: "Standby power accounts for 5-10% of residential energy use. Smart thermostats can reduce heating/cooling costs by 10-12%. LED lighting uses 75% less energy than incandescent bulbs.",
+                    icon: "fas fa-plug",
+                    category: "energy",
+                    color: "--energy-color"
+                }
+            ],
+            
+            alerts: [
+                {
+                    id: 1,
+                    title: "High Transport Usage",
+                    message: "Your car usage increased by 40% this week. Consider public transport for at least 2 trips.",
+                    icon: "fas fa-car",
+                    type: "warning",
+                    date: "Today"
+                },
+                {
+                    id: 2,
+                    title: "Shopping Alert",
+                    message: "You purchased 5 new clothing items this month. The average sustainable limit is 3 items.",
+                    icon: "fas fa-shopping-bag",
+                    type: "warning",
+                    date: "Yesterday"
+                },
+                {
+                    id: 3,
+                    title: "Energy Efficiency Tip",
+                    message: "Turning off lights when leaving rooms could save 50kg CO₂ monthly.",
+                    icon: "fas fa-lightbulb",
+                    type: "tip",
+                    date: "2 days ago"
+                }
+            ],
+            
+            recommendations: [
+                {
+                    id: 1,
+                    title: "Meat-Free Monday",
+                    description: "Skip meat one day a week to reduce your food footprint by 15%",
+                    icon: "fas fa-leaf",
+                    impact: "25kg CO₂/month",
+                    category: "food"
+                },
+                {
+                    id: 2,
+                    title: "Public Transport",
+                    description: "Use public transport 3 times a week instead of driving",
+                    icon: "fas fa-bus",
+                    impact: "40kg CO₂/month",
+                    category: "transport"
+                },
+                {
+                    id: 3,
+                    title: "Reusable Bags",
+                    description: "Always carry reusable shopping bags",
+                    icon: "fas fa-shopping-bag",
+                    impact: "5kg CO₂/month",
+                    category: "shopping"
+                },
+                {
+                    id: 4,
+                    title: "Smart Thermostat",
+                    description: "Lower heating by 1°C when away",
+                    icon: "fas fa-thermometer-half",
+                    impact: "30kg CO₂/month",
+                    category: "energy"
+                }
+            ],
+            
+            timeline: [
+                {
+                    id: 1,
+                    date: "Today",
+                    title: "Reduced meat consumption",
+                    content: "Switched to plant-based meals for 3 days this week",
+                    impact: "-5kg CO₂"
+                },
+                {
+                    id: 2,
+                    date: "Yesterday",
+                    title: "Used public transport",
+                    content: "Took the bus instead of driving to work",
+                    impact: "-2kg CO₂"
+                },
+                {
+                    id: 3,
+                    date: "Last Week",
+                    title: "Started composting",
+                    content: "Reduced food waste by starting home composting",
+                    impact: "-3kg CO₂"
+                },
+                {
+                    id: 4,
+                    date: "2 Weeks Ago",
+                    title: "Energy audit",
+                    content: "Completed home energy audit and fixed insulation",
+                    impact: "-15kg CO₂"
+                }
+            ],
+            
+            habits: [],
+            currentPeriod: "weekly",
+            selectedCategory: null
+        };
+        
+        // Initialize the app
+        function initApp() {
+            // Check for saved data from SpendSmart
+            loadSharedData();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize UI
+            updateDashboard();
+            
+            // Set up periodic updates
+            setInterval(updateCarbonScore, 60000); // Update every minute for demo purposes
+        }
+        
+        // Load shared data from SpendSmart (simulated localStorage)
+        function loadSharedData() {
+            try {
+                // Try to get data from localStorage (shared between apps)
+                const spendSmartData = localStorage.getItem('spendSmartData');
+                if (spendSmartData) {
+                    const data = JSON.parse(spendSmartData);
+                    
+                    // Update user info
+                    if (data.user) {
+                        appState.user.name = data.user.name || "Eco User";
+                        updateUserAvatar();
+                    }
+                    
+                    // Update carbon data if available
+                    if (data.carbonFootprint) {
+                        appState.user.carbonScore = data.carbonFootprint.total || 3.2;
+                        updateCarbonCategories(data.carbonFootprint);
+                    }
+                }
+            } catch (error) {
+                console.log("No shared data found or error loading data");
+            }
+        }
+        
+        // Update carbon categories from SpendSmart data
+        function updateCarbonCategories(carbonData) {
+            if (carbonData.transport) appState.categories.transport.value = carbonData.transport;
+            if (carbonData.food) appState.categories.food.value = carbonData.food;
+            if (carbonData.shopping) appState.categories.shopping.value = carbonData.shopping;
+            if (carbonData.energy) appState.categories.energy.value = carbonData.energy;
+            
+            // Recalculate percentages
+            calculatePercentages();
+        }
+        
+        // Calculate category percentages
+        function calculatePercentages() {
+            const total = Object.values(appState.categories).reduce((sum, cat) => sum + cat.value, 0);
+            
+            Object.keys(appState.categories).forEach(key => {
+                appState.categories[key].percentage = Math.round((appState.categories[key].value / total) * 100);
+            });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Period selector
+            document.querySelectorAll('.period-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.period-option').forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    appState.currentPeriod = option.dataset.period;
+                    updateDashboard();
+                });
+            });
+            
+            // Navigation
+            document.getElementById('navDashboard').addEventListener('click', () => {
+                setActiveNav('dashboard');
+                showSection('dashboard');
+            });
+            
+            document.getElementById('navInsights').addEventListener('click', () => {
+                setActiveNav('insights');
+                showSection('insights');
+            });
+            
+            document.getElementById('navLearn').addEventListener('click', () => {
+                setActiveNav('learn');
+                showSection('learn');
+            });
+            
+            document.getElementById('navGoals').addEventListener('click', () => {
+                setActiveNav('goals');
+                showSection('goals');
+            });
+            
+            // Back to SpendSmart button
+            document.getElementById('navBackToSpendSmart').addEventListener('click', () => {
+                window.location.href = 'index.html'; // Assuming main app is index.html
+            });
+            
+            // Refresh insights
+            document.getElementById('refreshInsights').addEventListener('click', generateNewInsights);
+            
+            // Add habit button
+            document.getElementById('addHabitBtn').addEventListener('click', () => {
+                document.getElementById('habitModal').classList.add('active');
+            });
+            
+            // Habit modal
+            document.getElementById('closeHabitModal').addEventListener('click', () => {
+                document.getElementById('habitModal').classList.remove('active');
+                clearHabitForm();
+            });
+            
+            document.getElementById('saveHabit').addEventListener('click', saveNewHabit);
+            
+            // Education modal
+            document.getElementById('closeEducationModal').addEventListener('click', () => {
+                document.getElementById('educationModal').classList.remove('active');
+            });
+            
+            // Close modals when clicking outside
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    closeAllModals();
+                }
+            });
+        }
+        
+        // Update dashboard
+        function updateDashboard() {
+            updateCarbonScore();
+            updateCategories();
+            updateChart();
+            updateInsights();
+            updateEducation();
+            updateAlerts();
+            updateRecommendations();
+            updateTimeline();
+        }
+        
+        // Update carbon score display
+        function updateCarbonScore() {
+            document.getElementById('carbonScore').textContent = appState.user.carbonScore.toFixed(1);
+            
+            // Calculate change from last month
+            const change = ((appState.user.lastMonthScore - appState.user.carbonScore) / appState.user.lastMonthScore) * 100;
+            const changeElement = document.querySelector('.carbon-score-card .score-main + div span');
+            
+            if (changeElement) {
+                changeElement.textContent = `▼ ${Math.round(change)}%`;
+                changeElement.style.color = change > 0 ? '#2ecc71' : '#e74c3c';
+            }
+        }
+        
+        // Update categories
+        function updateCategories() {
+            const categoryGrid = document.getElementById('categoryGrid');
+            categoryGrid.innerHTML = '';
+            
+            Object.values(appState.categories).forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                categoryItem.dataset.category = category.name.toLowerCase();
+                
+                const cssColor = getComputedStyle(document.documentElement).getPropertyValue(category.color);
+                
+                categoryItem.innerHTML = `
+                    <div class="category-icon" style="background: ${cssColor}">
+                        <i class="${category.icon}"></i>
+                    </div>
+                    <div class="category-name">${category.name}</div>
+                    <div class="category-value">${category.value.toFixed(1)}t</div>
+                    <div class="category-percentage">${category.percentage}% of total</div>
+                `;
+                
+                categoryItem.addEventListener('click', () => {
+                    showCategoryDetail(category);
+                });
+                
+                categoryGrid.appendChild(categoryItem);
+            });
+        }
+        
+        // Update chart
+        function updateChart() {
+            const chart = document.getElementById('impactChart');
+            chart.innerHTML = '';
+            
+            const categories = Object.values(appState.categories);
+            const maxValue = Math.max(...categories.map(c => c.value));
+            
+            categories.forEach(category => {
+                const bar = document.createElement('div');
+                bar.className = 'bar-item';
+                
+                const cssColor = getComputedStyle(document.documentElement).getPropertyValue(category.color);
+                const height = (category.value / maxValue) * 100;
+                
+                bar.style.height = `${height}%`;
+                bar.style.background = cssColor;
+                
+                const label = document.createElement('div');
+                label.className = 'bar-label';
+                label.textContent = category.name;
+                
+                bar.appendChild(label);
+                chart.appendChild(bar);
+            });
+        }
+        
+        // Update insights
+        function updateInsights() {
+            const insightsContainer = document.getElementById('insightsContainer');
+            insightsContainer.innerHTML = '';
+            
+            appState.insights.forEach(insight => {
+                const insightCard = document.createElement('div');
+                insightCard.className = 'insight-card';
+                
+                const cssColor = getComputedStyle(document.documentElement).getPropertyValue(insight.color);
+                
+                insightCard.innerHTML = `
+                    <div class="insight-header">
+                        <div class="insight-icon" style="background: ${cssColor}">
+                            <i class="${insight.icon}"></i>
+                        </div>
+                        <div class="insight-title">${insight.title}</div>
+                    </div>
+                    <div class="insight-content">${insight.content}</div>
+                    <div class="insight-stats">
+                        <span>${insight.date}</span>
+                        <span style="color: ${insight.impact === 'positive' ? '#2ecc71' : insight.impact === 'warning' ? '#f39c12' : '#e74c3c'}">
+                            ${insight.impact === 'positive' ? 'Positive' : insight.impact === 'warning' ? 'Needs attention' : 'High impact'}
+                        </span>
+                    </div>
+                `;
+                
+                insightsContainer.appendChild(insightCard);
+            });
+        }
+        
+        // Update education cards
+        function updateEducation() {
+            const educationCards = document.getElementById('educationCards');
+            educationCards.innerHTML = '';
+            
+            appState.education.forEach(edu => {
+                const eduCard = document.createElement('div');
+                eduCard.className = 'education-card';
+                eduCard.dataset.eduId = edu.id;
+                
+                const cssColor = getComputedStyle(document.documentElement).getPropertyValue(edu.color);
+                
+                eduCard.innerHTML = `
+                    <div class="education-icon" style="background: ${cssColor}">
+                        <i class="${edu.icon}"></i>
+                    </div>
+                    <div class="education-title">${edu.title}</div>
+                    <div class="education-content">${edu.content}</div>
+                `;
+                
+                eduCard.addEventListener('click', () => {
+                    showEducationDetail(edu);
+                });
+                
+                educationCards.appendChild(eduCard);
+            });
+        }
+        
+        // Update alerts
+        function updateAlerts() {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = '';
+            
+            appState.alerts.forEach(alert => {
+                const alertCard = document.createElement('div');
+                alertCard.className = 'alert-card';
+                
+                alertCard.innerHTML = `
+                    <div class="alert-icon" style="background: ${alert.type === 'warning' ? 'var(--moderate-impact)' : 'var(--low-impact)'}">
+                        <i class="${alert.icon}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">${alert.title}</div>
+                        <div class="alert-message">${alert.message}</div>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-light);">${alert.date}</div>
+                `;
+                
+                alertContainer.appendChild(alertCard);
+            });
+            
+            // Update alert count
+            document.getElementById('alertCount').textContent = appState.alerts.length;
+        }
+        
+        // Update recommendations
+        function updateRecommendations() {
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            recommendationsGrid.innerHTML = '';
+            
+            appState.recommendations.forEach(rec => {
+                const recCard = document.createElement('div');
+                recCard.className = 'recommendation-card';
+                
+                recCard.innerHTML = `
+                    <div class="recommendation-icon">
+                        <i class="${rec.icon}"></i>
+                    </div>
+                    <div class="recommendation-title">${rec.title}</div>
+                    <div class="recommendation-desc">${rec.description}</div>
+                    <div style="font-size: 12px; color: var(--primary-color); font-weight: 600;">
+                        <i class="fas fa-leaf"></i> ${rec.impact}
+                    </div>
+                `;
+                
+                recommendationsGrid.appendChild(recCard);
+            });
+        }
+        
+        // Update timeline
+        function updateTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+            
+            appState.timeline.forEach(item => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-date">${item.date}</div>
+                    <div class="timeline-content">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${item.title}</div>
+                        <div style="font-size: 14px; color: var(--text-light); margin-bottom: 5px;">${item.content}</div>
+                        <div style="font-size: 12px; color: var(--primary-color); font-weight: 600;">
+                            <i class="fas fa-leaf"></i> ${item.impact}
+                        </div>
+                    </div>
+                `;
+                
+                timeline.appendChild(timelineItem);
+            });
+        }
+        
+        // Show category detail
+        function showCategoryDetail(category) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.innerHTML = `
+                <div class="modal">
+                    <h3 class="modal-title">${category.name} Impact</h3>
+                    <div style="margin: 20px 0;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                            <div class="category-icon" style="background: ${getComputedStyle(document.documentElement).getPropertyValue(category.color)}; width: 60px; height: 60px;">
+                                <i class="${category.icon}"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">${category.value.toFixed(1)} tons CO₂</div>
+                                <div style="color: var(--text-light);">${category.percentage}% of your total footprint</div>
+                            </div>
+                        </div>
+                        <p>${category.description}</p>
+                        <div style="background: var(--bg-color); padding: 20px; border-radius: 12px; margin-top: 20px;">
+                            <div style="font-weight: 600; margin-bottom: 10px;">How to reduce:</div>
+                            <ul style="padding-left: 20px; color: var(--text-light);">
+                                <li>Choose sustainable alternatives</li>
+                                <li>Reduce consumption frequency</li>
+                                <li>Opt for eco-friendly options</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn" id="closeCategoryModal">
+                            <i class="fas fa-check"></i>
+                            Got it!
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.querySelector('#closeCategoryModal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+        
+        // Show education detail
+        function showEducationDetail(edu) {
+            document.getElementById('educationModalTitle').textContent = edu.title;
+            
+            const content = document.getElementById('educationModalContent');
+            content.innerHTML = `
+                <div style="margin: 20px 0;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div class="education-icon" style="background: ${getComputedStyle(document.documentElement).getPropertyValue(edu.color)}; margin: 0;">
+                            <i class="${edu.icon}"></i>
+                        </div>
+                        <div style="font-weight: 600; font-size: 16px;">${edu.category.charAt(0).toUpperCase() + edu.category.slice(1)} Category</div>
+                    </div>
+                    <p style="margin-bottom: 20px; line-height: 1.6;">${edu.detail}</p>
+                    <div style="background: var(--bg-color); padding: 20px; border-radius: 12px; margin-top: 20px;">
+                        <div style="font-weight: 600; margin-bottom: 10px;">Key Takeaways:</div>
+                        <ul style="padding-left: 20px; color: var(--text-light); line-height: 1.6;">
+                            <li>Your choices directly impact carbon emissions</li>
+                            <li>Small changes accumulate into significant reductions</li>
+                            <li>Sustainable alternatives often save money in the long run</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('educationModal').classList.add('active');
+        }
+        
+        // Generate new insights
+        function generateNewInsights() {
+            // Simulate generating new insights
+            const newInsight = {
+                id: appState.insights.length + 1,
+                title: "Weekly Analysis Complete",
+                content: "Based on your recent habits, we've identified new opportunities for reducing your carbon footprint.",
+                icon: "fas fa-chart-line",
+                color: "--primary-color",
+                date: "Just now",
+                impact: "positive"
+            };
+            
+            appState.insights.unshift(newInsight);
+            updateInsights();
+            
+            // Show notification
+            showNotification("New insights generated!", "success");
+        }
+        
+        // Save new habit
+        function saveNewHabit() {
+            const name = document.getElementById('habitName').value;
+            const category = document.getElementById('habitCategory').value;
+            const frequency = document.getElementById('habitFrequency').value;
+            const impact = parseFloat(document.getElementById('habitImpact').value);
+            
+            if (!name || !impact) {
+                showNotification("Please fill in all fields", "warning");
+                return;
+            }
+            
+            const newHabit = {
+                id: appState.habits.length + 1,
+                name,
+                category,
+                frequency,
+                impact,
+                date: new Date().toISOString().split('T')[0],
+                completed: false
+            };
+            
+            appState.habits.push(newHabit);
+            
+            // Add to timeline
+            appState.timeline.unshift({
+                id: appState.timeline.length + 1,
+                date: "Today",
+                title: `Started: ${name}`,
+                content: `Tracking ${frequency} habit to reduce carbon footprint`,
+                impact: `-${impact}kg CO₂/${frequency}`
+            });
+            
+            // Update carbon score (simulate reduction)
+            const reduction = impact / 1000; // Convert kg to tons
+            appState.user.carbonScore = Math.max(0, appState.user.carbonScore - reduction);
+            
+            // Close modal and update UI
+            document.getElementById('habitModal').classList.remove('active');
+            clearHabitForm();
+            updateDashboard();
+            
+            showNotification("New habit tracked successfully!", "success");
+        }
+        
+        // Clear habit form
+        function clearHabitForm() {
+            document.getElementById('habitName').value = '';
+            document.getElementById('habitCategory').value = 'shopping';
+            document.getElementById('habitFrequency').value = 'daily';
+            document.getElementById('habitImpact').value = '';
+        }
+        
+        // Set active navigation
+        function setActiveNav(navItem) {
+            ['navDashboard', 'navInsights', 'navLearn', 'navGoals'].forEach(id => {
+                document.getElementById(id).classList.remove('active');
+            });
+            
+            document.getElementById(`nav${navItem.charAt(0).toUpperCase() + navItem.slice(1)}`).classList.add('active');
+        }
+        
+        // Show section
+        function showSection(section) {
+            // For now, just update the dashboard
+            updateDashboard();
+        }
+        
+        // Update user avatar
+        function updateUserAvatar() {
+            const avatar = document.getElementById('userAvatar');
+            if (appState.user.avatar) {
+                avatar.style.backgroundImage = `url('${appState.user.avatar}')`;
+                avatar.style.backgroundSize = 'cover';
+                avatar.style.backgroundPosition = 'center';
+                avatar.innerHTML = '';
+            } else {
+                avatar.innerHTML = `<i class="fas fa-user"></i>`;
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'alert-card';
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '1001';
+            notification.style.maxWidth = '350px';
+            notification.style.animation = 'fadeIn 0.3s ease';
+            
+            const bgColor = type === 'success' ? '#2ecc71' : type === 'warning' ? '#f39c12' : '#3498db';
+            
+            notification.innerHTML = `
+                <div class="alert-icon" style="background: ${bgColor}">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="alert-message">${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Close all modals
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
