@@ -2636,6 +2636,10 @@
             <i class="fas fa-home"></i>
             <span id="navHomeText">Home</span>
         </div>
+    <div class="nav-item" id="navEcoFootprint">
+        <i class="fas fa-leaf"></i>
+        <span>EcoTrack</span>
+    </div>
         <div class="nav-item" id="navProducts">
             <i class="fas fa-shopping-bag"></i>
             <span id="navProductsText">Products</span>
@@ -3215,8 +3219,8 @@
             document.getElementById('nextToSetup2').addEventListener('click', goToSetup2);
             document.getElementById('backToSetup1').addEventListener('click', goToSetup1);
             document.getElementById('completeSetup').addEventListener('click', completeSetup);
-            document.getElementById('resetSetup1').addEventListener('click', resetSetup1);
-            
+            document.getElementById('resetSetup1').addEventListener('click', resetSetup1);	
+
             // Percentage sliders
             setupPercentageSliders();
             
@@ -3710,6 +3714,19 @@
                     localStorage.removeItem('spendSmartProfilePicture');
                     window.location.reload(); // Refresh page to reset everything
                 }
+            });
+
+            document.getElementById('navEcoFootprint').addEventListener('click', () => {
+                   const sharedData = {
+                   user: appState.user,
+                   carbonFootprint: appState.carbonFootprint,
+                   expenses: appState.expenses,
+                   budget: appState.budget
+               };
+               localStorage.setItem('spendSmartData', JSON.stringify(sharedData));
+    
+               // Redirect to EcoFootprint annex
+               window.location.href = 'ecofootprint.html';
             });
         }
         
@@ -5236,4 +5253,3 @@
     </script>
 </body>
 </html>
-
